@@ -11,7 +11,7 @@ workflows:
         XCODE_SCHEME: "App"
         CM_CERTIFICATE: Benza Distribution
         CM_PROVISIONING_PROFILE: Benza App Store
-      node: v18
+      node: latest
       xcode: latest
     scripts:
       - name: Install npm dependencies
