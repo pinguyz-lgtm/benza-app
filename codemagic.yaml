@@ -9,8 +9,6 @@ workflows:
       vars:
         XCODE_PROJECT: "ios/App/App.xcodeproj"
         XCODE_SCHEME: "App"
-        CM_CERTIFICATE: Benza Distribution
-        CM_PROVISIONING_PROFILE: Benza App Store
       node: latest
       xcode: latest
     scripts:
@@ -21,8 +19,11 @@ workflows:
       - name: Set up code signing
         script: |
           keychain initialize
-          @certificate fetch-by-reference --reference "$CM_CERTIFICATE"
-          @provisioning-profiles fetch-by-reference --reference "$CM_PROVISIONING_PROFILE"
+          app-store-connect fetch-signing-files it.pinguyweb.benza \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
       - name: Build iOS
         script: |
           xcode-project build-ipa \
