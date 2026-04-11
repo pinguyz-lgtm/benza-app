@@ -6,11 +6,11 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: it.pinguyweb.benza
-        certificate: Benza Distribution
-        provisioning_profile: Benza App Store
       vars:
         XCODE_PROJECT: "ios/App/App.xcodeproj"
         XCODE_SCHEME: "App"
+        CM_CERTIFICATE: Benza Distribution
+        CM_PROVISIONING_PROFILE: Benza App Store
       node: v18
       xcode: latest
     scripts:
@@ -18,6 +18,11 @@ workflows:
         script: npm install
       - name: Capacitor sync
         script: npx cap sync ios
+      - name: Set up code signing
+        script: |
+          keychain initialize
+          @certificate fetch-by-reference --reference "$CM_CERTIFICATE"
+          @provisioning-profiles fetch-by-reference --reference "$CM_PROVISIONING_PROFILE"
       - name: Build iOS
         script: |
           xcode-project build-ipa \
