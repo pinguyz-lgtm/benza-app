@@ -43,7 +43,7 @@ workflows:
       vars:
         PACKAGE_NAME: "it.pinguyweb.benza"
       node: latest
-      java: 17
+      java: 21
     scripts:
       - name: Install npm dependencies
         script: npm install
