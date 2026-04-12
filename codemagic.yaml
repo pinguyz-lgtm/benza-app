@@ -31,3 +31,29 @@ workflows:
             --scheme "$XCODE_SCHEME"
     artifacts:
       - build/ios/ipa/*.ipa
+
+  android-workflow:
+    name: Benza Android
+    max_build_duration: 60
+    environment:
+      android_signing:
+        - benza_keystore
+      groups:
+        - google_play
+      vars:
+        PACKAGE_NAME: "it.pinguyweb.benza"
+      node: latest
+      java: 17
+    scripts:
+      - name: Install npm dependencies
+        script: npm install
+      - name: Capacitor sync
+        script: npx cap sync android
+      - name: Set up local.properties
+        script: echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build Android App Bundle
+        script: |
+          cd android
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.aab
