@@ -2,8 +2,8 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Benza · Prezzi carburante vicino a te</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+  <title>MyBenza · Prezzi carburante vicino a te</title>
   <meta name="description" content="Trova benzina, gasolio, GPL e metano al prezzo più basso vicino a te. Dati ufficiali MIMIT aggiornati ogni giorno."/>
   <meta name="theme-color" content="#ffffff"/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233B5BDB'/><path d='M16 5C11.58 5 8 8.58 8 13c0 6.25 8 14 8 14s8-7.75 8-14c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z' fill='white'/></svg>"/>
@@ -66,7 +66,7 @@
   align-items: center; 
   justify-content: space-between;
   flex-shrink: 0;
-  padding-top: calc(env(safe-area-inset-top) + 20px); /* ✅ MODIFICATO */
+  padding-top: calc(env(safe-area-inset-top) + 10px); 
 }
 
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
@@ -413,6 +413,21 @@
       .mode-tab { font-size: 16px !important; padding: 12px 10px !important; }
     }
 
+    /* ── FORCE MOBILE FONTS IN CAPACITOR APP ── */
+@supports (-webkit-touch-callout: none) {
+  /* iOS WebView detection */
+  .hero-title { font-size: 40px !important; }
+  .hero-sub { font-size: 16px !important; }
+  .pill { font-size: 16px !important; padding: 12px 18px !important; }
+  .mode-tab { font-size: 16px !important; padding: 12px 10px !important; }
+  .btn-gps { font-size: 18px !important; }
+  .search-input { font-size: 18px !important; }
+  .sb { font-size: 18px !important; }  /* Nome distributore */
+  .sa { font-size: 14px !important; }  /* Indirizzo */
+  .pm { font-size: 28px !important; }  /* Prezzo */
+  .status { font-size: 16px !important; }
+}
+
     .upin { width: 20px; height: 20px; background: var(--accent); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 5px rgba(59,91,219,.22), 0 2px 10px rgba(0,0,0,.2); animation: pr 2.2s ease-out infinite; }
     @keyframes pr { 0%{box-shadow:0 0 0 5px rgba(59,91,219,.22),0 2px 10px rgba(0,0,0,.2)} 60%{box-shadow:0 0 0 16px rgba(59,91,219,.0),0 2px 10px rgba(0,0,0,.2)} 100%{box-shadow:0 0 0 5px rgba(59,91,219,.22),0 2px 10px rgba(0,0,0,.2)} }
 
@@ -475,7 +490,7 @@
   <link rel="manifest" href="/manifest.json"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="Benza"/>
+  <meta name="apple-mobile-web-app-title" content="MyBenza"/>
   <link rel="apple-touch-icon" href="/icon-192.png"/>
 </head>
 <body>
@@ -490,7 +505,7 @@
             <path d="M11 2C7.41 2 4.5 4.91 4.5 8.5c0 5 6.5 11.5 6.5 11.5s6.5-6.5 6.5-11.5C17.5 4.91 14.59 2 11 2zm0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="white"/>
           </svg>
         </div>
-        <span class="logo-name">ben<em>za</em></span>
+        <span class="logo-name">My<em>Benza</em></span>
       </a>
       <div class="live-badge"><span class="live-dot"></span>Prezzi Live</div>
     </div>
@@ -712,16 +727,13 @@ function setStatus(state, msg) {
 }
 
 /* ── GPS ── */
-function doLocate() {
-  if (!('geolocation' in navigator)) { 
-    setStatus('err', 'Geolocalizzazione non supportata'); 
-    return; 
-  }
+async function doLocate() {
+  // Importa il plugin Capacitor Geolocation
+  const { Geolocation } = window.Capacitor?.Plugins || {};
   
-  const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
-  if (location.protocol === 'http:' && !isLocal) { 
-    showErr('Serve HTTPS','Attiva il certificato SSL gratuito: cPanel → SSL/TLS → Let\'s Encrypt.',false,true); 
-    return; 
+  if (!Geolocation) {
+    setStatus('err', 'Geolocalizzazione non supportata'); 
+    return;
   }
   
   const btn = document.getElementById('locBtn');
@@ -737,50 +749,64 @@ function doLocate() {
     showErr('Timeout GPS', 'La posizione non è stata rilevata entro 10 secondi. Riprova o cerca manualmente il tuo comune.', true, false);
   }, 10000);
   
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      // ✅ SUCCESSO: cancella timeout e procedi
-      clearTimeout(timeoutId);
-      lat = pos.coords.latitude; 
-      lng = pos.coords.longitude;
-      btn.disabled = false;
-      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Aggiorna posizione`;
-      placeUser();
-      mode === 'carburante' ? doFetch() : doFetchServizi();
-    },
-    err => {
-      // ✅ ERRORE: cancella timeout e mostra messaggio appropriato
-      clearTimeout(timeoutId);
-      btn.disabled = false;
-      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
-      
-      let errorTitle = 'Errore GPS';
-      let errorMsg = 'Impossibile ottenere la posizione.';
-      
-      switch(err.code) {
-        case err.PERMISSION_DENIED:
-          errorTitle = 'Permesso negato';
-          errorMsg = 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → Benza → Posizione → Consenti mentre usi l\'app\n\nSafari: Impostazioni → Safari → Posizione → Consenti';
-          break;
-        case err.POSITION_UNAVAILABLE:
-          errorTitle = 'Posizione non disponibile';
-          errorMsg = 'Il GPS del dispositivo non è disponibile. Verifica di essere all\'aperto o cerca manualmente il tuo comune.';
-          break;
-        case err.TIMEOUT:
-          errorTitle = 'Timeout';
-          errorMsg = 'La richiesta GPS è scaduta. Riprova o cerca manualmente il tuo comune.';
-          break;
+  try {
+    // ✅ PRIMA: Controlla il permesso
+    const permissionStatus = await Geolocation.checkPermissions();
+    
+    // Se il permesso non è stato ancora richiesto o è stato negato, richiedilo
+    if (permissionStatus.location !== 'granted') {
+      const requestResult = await Geolocation.requestPermissions();
+      if (requestResult.location !== 'granted') {
+        clearTimeout(timeoutId);
+        btn.disabled = false;
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
+        setStatus('err', 'Permesso negato');
+        showErr('Permesso negato', 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → MyBenza → Posizione → Consenti mentre usi l\'app', true, false);
+        return;
       }
-      
-      setStatus('err', errorTitle);
-      showErr(errorTitle, errorMsg, true, false);
-    },
-    { 
-      enableHighAccuracy: true, 
-      timeout: 10000,  // ✅ 10 secondi max
-      maximumAge: 0    // ✅ No cache, richiedi posizione fresca
     }
-  );
+    
+    // ✅ POI: Ottieni la posizione
+    const position = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    });
+    
+    clearTimeout(timeoutId);
+    lat = position.coords.latitude;
+    lng = position.coords.longitude;
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Aggiorna posizione`;
+    placeUser();
+    mode === 'carburante' ? doFetch() : doFetchServizi();
+    
+  } catch (err) {
+    clearTimeout(timeoutId);
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
+    
+    let errorTitle = 'Errore GPS';
+    let errorMsg = 'Impossibile ottenere la posizione.';
+    
+    console.error('GPS Error:', err);
+    
+    // Gestione errori
+    const errMsg = (err.message || '').toLowerCase();
+    if (errMsg.includes('permission') || errMsg.includes('denied')) {
+      errorTitle = 'Permesso negato';
+      errorMsg = 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → MyBenza → Posizione → Consenti mentre usi l\'app';
+    } else if (errMsg.includes('unavailable') || errMsg.includes('position')) {
+      errorTitle = 'Posizione non disponibile';
+      errorMsg = 'Il GPS del dispositivo non è disponibile. Verifica di essere all\'aperto o cerca manualmente il tuo comune.';
+    } else if (errMsg.includes('timeout')) {
+      errorTitle = 'Timeout';
+      errorMsg = 'La richiesta GPS è scaduta. Riprova o cerca manualmente il tuo comune.';
+    }
+    
+    setStatus('err', errorTitle);
+    showErr(errorTitle, errorMsg, true, false);
+  }
 }
 
 /* ── CITY SEARCH ── */
@@ -1435,7 +1461,7 @@ async function inviaSegnalazione() {
     var res = await r.json();
     if (res.ok) {
       document.getElementById('segBtns').style.display='none'; document.getElementById('segPriceWrap').style.display='none';
-      document.getElementById('segMsg').textContent='Grazie da tutta la Community di Benza! La tua segnalazione è stata ricevuta.';
+      document.getElementById('segMsg').textContent='Grazie da tutta la Community di MyBenza! La tua segnalazione è stata ricevuta.';
       document.getElementById('segMsg').className='seg-msg ok';
       setTimeout(() => { chiudiSegnalazione(); if(res.accettata) doFetch(); }, 10000);
     } else { document.getElementById('segMsg').textContent=res.error||'Errore sconosciuto.'; document.getElementById('segMsg').className='seg-msg err'; }
