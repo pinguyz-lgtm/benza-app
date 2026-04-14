@@ -1,5 +1,9 @@
 {
   "appId": "it.pinguyweb.benza",
   "appName": "Benza",
-  "webDir": "www"
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "ios": {
+    "buildNumber": "2"
+  }
 }
