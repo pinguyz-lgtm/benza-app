@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>Benza</string>
+        <string>MyBenza</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -49,5 +49,9 @@
 	<true/>
 <key>ITSAppUsesNonExemptEncryption</key>
 <false/>
+<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MyBenza utilizza la tua posizione per mostrarti i distributori di carburante più vicini e aiutarti a trovare i prezzi migliori nelle tue vicinanze.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>MyBenza utilizza la tua posizione per mostrarti i distributori di carburante più vicini e aiutarti a trovare i prezzi migliori nelle tue vicinanze.</string>
 </dict>
 </plist>
