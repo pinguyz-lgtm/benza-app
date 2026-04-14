@@ -56,7 +56,6 @@
       position: relative;
       z-index: 10;
       box-shadow: 4px 0 24px rgba(0,0,0,.06);
-      padding-top: env(safe-area-inset-top);
     }
     .panel > * { flex-shrink: unset; }
 
@@ -87,7 +86,7 @@
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: livepulse 2s ease-in-out infinite; }
     @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    .hero { padding: 18px 22px 0; flex-shrink: 0; }
+    .hero { padding: 6px 22px 0; flex-shrink: 0; }
     .hero-title { font-size: 45px; font-weight: 900; color: var(--text); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 6px; }
     .hero-title em { color: var(--accent); font-style: normal; }
     .hero-sub { font-size: 14px; font-weight: 600; color: var(--text2); line-height: 1.5; margin-bottom: 18px; }
@@ -408,7 +407,7 @@
       .panel { width: 100%; height: auto; overflow-y: visible; border-right: none; border-bottom: 1px solid var(--border); }
       #map { position: relative; width: 100%; height: 55vh!important; order: 2; }
       .list { padding: 0 16px 20px; }
-      .hero { padding: 14px 16px 0; }
+      .hero { padding: 6px 16px 0; }
       .controls { padding: 0 16px 12px; }
       .mode-tab { font-size: 16px !important; padding: 12px 10px !important; }
     }
