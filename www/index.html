@@ -56,14 +56,18 @@
       position: relative;
       z-index: 10;
       box-shadow: 4px 0 24px rgba(0,0,0,.06);
+      padding-top: env(safe-area-inset-top);
     }
     .panel > * { flex-shrink: unset; }
 
     .topbar {
-      padding: 20px 22px 0;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
-    }
+  padding: 20px 22px 0;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding-top: calc(env(safe-area-inset-top) + 20px); /* ✅ MODIFICATO */
+}
 
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo-ico {
@@ -709,28 +713,73 @@ function setStatus(state, msg) {
 
 /* ── GPS ── */
 function doLocate() {
-  if (!('geolocation' in navigator)) { setStatus('err', 'Geolocalizzazione non supportata'); return; }
+  if (!('geolocation' in navigator)) { 
+    setStatus('err', 'Geolocalizzazione non supportata'); 
+    return; 
+  }
+  
   const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
-  if (location.protocol === 'http:' && !isLocal) { showErr('Serve HTTPS','Attiva il certificato SSL gratuito: cPanel → SSL/TLS → Let\'s Encrypt.',false,true); return; }
+  if (location.protocol === 'http:' && !isLocal) { 
+    showErr('Serve HTTPS','Attiva il certificato SSL gratuito: cPanel → SSL/TLS → Let\'s Encrypt.',false,true); 
+    return; 
+  }
+  
   const btn = document.getElementById('locBtn');
   btn.disabled = true;
   btn.innerHTML = `<svg style="animation:spin .8s linear infinite;display:block" width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="white" stroke-width="2.2" stroke-dasharray="22 12" stroke-linecap="round"/></svg> Rilevamento…`;
   setStatus('spin','Acquisizione posizione GPS…');
+  
+  // ✅ TIMEOUT ESPLICITO DI 10 SECONDI
+  const timeoutId = setTimeout(() => {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
+    setStatus('err', 'Timeout: posizione non disponibile');
+    showErr('Timeout GPS', 'La posizione non è stata rilevata entro 10 secondi. Riprova o cerca manualmente il tuo comune.', true, false);
+  }, 10000);
+  
   navigator.geolocation.getCurrentPosition(
     pos => {
-      lat = pos.coords.latitude; lng = pos.coords.longitude;
+      // ✅ SUCCESSO: cancella timeout e procedi
+      clearTimeout(timeoutId);
+      lat = pos.coords.latitude; 
+      lng = pos.coords.longitude;
       btn.disabled = false;
       btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Aggiorna posizione`;
       placeUser();
       mode === 'carburante' ? doFetch() : doFetchServizi();
     },
     err => {
+      // ✅ ERRORE: cancella timeout e mostra messaggio appropriato
+      clearTimeout(timeoutId);
       btn.disabled = false;
       btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
-      const msgs = {1:'Clicca 🔒 → Posizione → Consenti.',2:'GPS non disponibile.',3:'Richiesta scaduta.'};
-      setStatus('err', msgs[err.code] || 'Errore GPS');
+      
+      let errorTitle = 'Errore GPS';
+      let errorMsg = 'Impossibile ottenere la posizione.';
+      
+      switch(err.code) {
+        case err.PERMISSION_DENIED:
+          errorTitle = 'Permesso negato';
+          errorMsg = 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → Benza → Posizione → Consenti mentre usi l\'app\n\nSafari: Impostazioni → Safari → Posizione → Consenti';
+          break;
+        case err.POSITION_UNAVAILABLE:
+          errorTitle = 'Posizione non disponibile';
+          errorMsg = 'Il GPS del dispositivo non è disponibile. Verifica di essere all\'aperto o cerca manualmente il tuo comune.';
+          break;
+        case err.TIMEOUT:
+          errorTitle = 'Timeout';
+          errorMsg = 'La richiesta GPS è scaduta. Riprova o cerca manualmente il tuo comune.';
+          break;
+      }
+      
+      setStatus('err', errorTitle);
+      showErr(errorTitle, errorMsg, true, false);
     },
-    { enableHighAccuracy: true, timeout: 14000, maximumAge: 90000 }
+    { 
+      enableHighAccuracy: true, 
+      timeout: 10000,  // ✅ 10 secondi max
+      maximumAge: 0    // ✅ No cache, richiedi posizione fresca
+    }
   );
 }
 
@@ -836,7 +885,7 @@ function labelServizio(tipo) {
 
 const svcIcoMap = { autolavaggio:'autolavaggio', officina:'officina', gommista:'gommista', soccorso_stradale:'soccorso' };
 const svcColMap = { autolavaggio:'svc-ico-autolavaggio', officina:'svc-ico-officina', gommista:'svc-ico-gommista', soccorso_stradale:'svc-ico-soccorso' };
-const svcPinCol = { autolavaggio:'#1D4ED8', officina:'#B45309', gommista:'#15803D', soccorso_stradale:'#DC2626' };
+const svcPinCol = { autolavaggio:'#1D4ED8', officina:'#D97706', gommista:'#15803D', soccorso_stradale:'#DC2626' };
 
 function getSvcSvg(tipo, color) {
   var c = color || 'currentColor';
@@ -978,17 +1027,17 @@ function mkSvcCard(s, i) {
         var mapH = document.getElementById('map').offsetHeight;
         // Offset positivo: sposta il punto verso l'alto nella mappa,
         // il popup si apre sotto il cerchio rimanendo visibile
-        map.flyTo({ center: [s.lng, s.lat], zoom: 15, duration: 700, offset: [0, -185] });
+        map.flyTo({ center: [s.lng, s.lat], zoom: 15, duration: 700, offset: [0, -150] });
         setTimeout(function() {
           if (popups[i]) popups[i].addTo(map);
         }, 800);
       }, 400);
     } else {
-      map.flyTo({ center: [s.lng, s.lat], zoom: 15, duration: 700 });
-      setTimeout(function() {
-        if (popups[i]) popups[i].addTo(map);
-      }, 750);
-    }
+  map.flyTo({ center: [s.lng, s.lat + 0.002], zoom: 15, duration: 1400 });
+  setTimeout(function() {
+    if (popups[i]) popups[i].addTo(map);
+  }, 750);
+}
   });
   return d;
 }
@@ -997,7 +1046,7 @@ function orarioOggi(orarioStr) {
   if (!orarioStr) return null;
   var giorniIT = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
   var oggi = new Date().getDay(); // 0=dom, 1=lun, ...
-  var parti = orarioStr.split(';').map(function(p) { return p.trim(); });
+  var parti = orarioStr.replace(/\n/g, ';').split(';').map(function(p) { return p.trim(); });
 
   // Trova orario di oggi
   function trovaPer(dayIdx) {
@@ -1043,12 +1092,11 @@ function renderOrario(orarioStr) {
       '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="margin-top:3px;flex-shrink:0"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
       '<span><strong>Oggi aperto</strong><br>' + x(o.testo) + '</span></div>';
   } else if (o.aperto === false) {
-    var prossimo = o.prossimoGiorno
-      ? '<br>Apre ' + o.prossimoGiorno + ' ' + x(o.prossimoOrario.split(',')[0].split('-')[0].trim())
-      : '';
+    var labelProssimo = o.prossimoGiorno ? ' · Apre ' + o.prossimoGiorno : '';
+    var orarioProssimo = o.prossimoOrario ? '<br>' + x(o.prossimoOrario) : '';
     return '<div class="svc-orario closed">' +
       '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="margin-top:3px;flex-shrink:0"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
-      '<span><strong>Ora chiuso</strong>' + prossimo + '</span></div>';
+      '<span><strong>Ora chiuso' + labelProssimo + '</strong>' + orarioProssimo + '</span></div>';
   }
   return '<div class="svc-orario">' +
     '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="margin-top:3px;flex-shrink:0"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
@@ -1090,10 +1138,10 @@ function addSvcPin(s, i) {
   const wurl = 'https://waze.com/ul?ll=' + s.lat + ',' + s.lng + '&navigate=yes';
 
   const pop = new mapboxgl.Popup({
-    anchor: isMob ? 'top' : undefined,
-    offset: isMob ? [0, cx + 10] : [0, -(cx + 14)],
-    closeOnClick: true, focusAfterOpen: false, maxWidth: '260px'
-  }).setHTML(
+  anchor: isMob ? 'top' : 'bottom',
+  offset: isMob ? [0, cx + 10] : [0, -(cx + 14)],
+  closeOnClick: true, focusAfterOpen: false, maxWidth: '260px'
+}).setHTML(
     '<div class="pop-brand">' + x(nomeDisplay) + '</div>' +
     (addr ? '<div class="pop-addr">' + x(addr) + '</div>' : '') +
     '<div class="pop-chips"><span class="chip c-dist">' + distKm + ' km</span></div>' +
@@ -1105,7 +1153,23 @@ function addSvcPin(s, i) {
   );
 
   const mk = new mapboxgl.Marker({ element: el }).setLngLat([s.lng, s.lat]).setPopup(pop).addTo(map);
-  popups[i] = pop; markers.push(mk);
+popups[i] = pop; markers.push(mk);
+
+el.addEventListener('click', () => {
+  Object.values(popups).forEach(p => p.remove());
+  
+  const isMob = window.innerWidth < 900;
+  
+  if (isMob) {
+    map.flyTo({ center: [s.lng, s.lat], zoom: 15, duration: 700 });
+  } else {
+    map.flyTo({ center: [s.lng, s.lat + 0.002], zoom: 15, duration: 700 });
+  }
+  
+  setTimeout(() => {
+    if (popups[i]) popups[i].addTo(map);
+  }, 750);
+});
 }
 
 function getSvcSvgPin(tipo, cx, sz) {
@@ -1131,8 +1195,8 @@ function getSvcSvgPin(tipo, cx, sz) {
       '</g>';
   }
   if (tipo === 'officina') {
-    return '<g transform="translate(' + cx + ',' + y0 + ')">' +
-      '<path d="M-9,6 C-11,3 -11,-4 -5,-8 L-3,-2 L0,2 L3,-2 L5,-8 C11,-4 11,3 9,6 L5,2 L0,5 L-5,2 Z" fill="white" opacity=".85"/>' +
+    return '<g transform="translate(' + cx + ',' + y0 + ') scale(1.2)">' +
+      '<path d="M2.7 -6.7a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" fill="white" opacity=".9"/>' +
       '</g>';
   }
   if (tipo === 'gommista') {
@@ -1399,15 +1463,16 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState==='visible' && lat!==null) { mode==='carburante' ? doFetch() : doFetchServizi(); }
 });
-
-// Controlla aggiornamenti Service Worker ad ogni apertura
+</script>
+<script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').then(reg => {
+    // Controlla aggiornamenti ad ogni apertura
     reg.addEventListener('updatefound', () => {
       const newWorker = reg.installing;
       newWorker.addEventListener('statechange', () => {
         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          // Nuova versione disponibile — ricarica automaticamente
+          // Nuova versione trovata — installa silenziosamente
           newWorker.postMessage({ action: 'skipWaiting' });
         }
       });
@@ -1415,12 +1480,15 @@ if ('serviceWorker' in navigator) {
   });
 
   // Ricarica quando il nuovo SW prende il controllo
+  let refreshing = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    window.location.reload();
+    if (!refreshing) {
+      refreshing = true;
+      window.location.reload();
+    }
   });
 }
 </script>
-<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 
 <div class="seg-overlay" id="segOverlay">
   <div class="seg-modal">
