@@ -1,7 +1,7 @@
 {
   "appId": "it.pinguyweb.benza",
   "appName": "MyBenza",
-  "webDir": ".",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "ios": {
     "buildNumber": "7"
