@@ -829,16 +829,30 @@ function pulisciIndirizzo(addr) {
   // Rimuovi ", Italia"
   addr = addr.replace(/,\s*Italia/gi, '');
   
-  // Rimuovi duplicati del comune
-  const parts = addr.split(',').map(p => p.trim()).filter(p => p);
-  const unique = [...new Set(parts)];
-  addr = unique.join(', ');
+  // Split in parti
+  let parts = addr.split(',').map(p => p.trim()).filter(p => p);
+  
+  // Rimuovi duplicati considerando sia "Udine" che "Udine (UD)" come uguali
+  const seen = new Set();
+  parts = parts.filter(part => {
+    // Estrai il nome base del comune (rimuovi provincia tra parentesi)
+    const base = part.replace(/\s*\([A-Z]{2}\)\s*$/, '').trim();
+    
+    if (seen.has(base.toLowerCase())) {
+      return false; // Duplicato, scarta
+    }
+    
+    seen.add(base.toLowerCase());
+    return true;
+  });
+  
+  addr = parts.join(', ');
   
   // Pulisci virgole/spazi multipli
   addr = addr.replace(/,\s*,/g, ',').replace(/\s+/g, ' ').trim();
   
-  // Metti provincia in parentesi (UD → (UD))
-  addr = addr.replace(/\b([A-Z]{2})\b(?!\+)/g, '($1)');
+  // Metti provincia in parentesi se manca (UD → (UD))
+  addr = addr.replace(/\b([A-Z]{2})\b(?!\+)(?!\))/g, '($1)');
   
   return addr;
 }
