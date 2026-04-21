@@ -819,6 +819,30 @@ async function doLocate() {
   }
 }
 
+// Pulisce indirizzi autolavaggi/officine (rimuove CAP, Italia, duplicati)
+function pulisciIndirizzo(addr) {
+  if (!addr) return '';
+  
+  // Rimuovi CAP (5 cifre)
+  addr = addr.replace(/\b\d{5}\b/g, '');
+  
+  // Rimuovi ", Italia"
+  addr = addr.replace(/,\s*Italia/gi, '');
+  
+  // Rimuovi duplicati del comune
+  const parts = addr.split(',').map(p => p.trim()).filter(p => p);
+  const unique = [...new Set(parts)];
+  addr = unique.join(', ');
+  
+  // Pulisci virgole/spazi multipli
+  addr = addr.replace(/,\s*,/g, ',').replace(/\s+/g, ' ').trim();
+  
+  // Metti provincia in parentesi (UD → (UD))
+  addr = addr.replace(/\b([A-Z]{2})\b(?!\+)/g, '($1)');
+  
+  return addr;
+}
+
 /* ── CITY SEARCH ── */
 function onCityInput(val) {
   clearTimeout(acTimer);
@@ -1039,7 +1063,7 @@ function mkSvcCard(s, i) {
     '<div class="svc-card-ico ' + col + '">' + getSvcSvg(s.tipo, pinCol) + '</div>' +
     '<div class="svc-card-body">' +
       '<div class="svc-card-name">' + x(nome) + (s.is_sponsor ? ' <span class="svc-sponsor-badge">★ Sponsor</span>' : '') + (!hasNome ? ' <span style="font-size:10px;font-weight:600;color:var(--text3);">· posizione GPS</span>' : '') + '</div>' +
-      (addr ? '<div class="svc-card-addr">' + x(addr) + '</div>' : (s.citta ? '<div class="svc-card-addr">' + x(s.citta) + '</div>' : '')) +
+      (addr ? '<div class="svc-card-addr">' + x(pulisciIndirizzo(addr)) + '</div>' : (s.citta ? '<div class="svc-card-addr">' + x(s.citta) + '</div>' : '')) +
       orarioHtml +
       '<div class="svc-card-actions">' +
         telHtml +
