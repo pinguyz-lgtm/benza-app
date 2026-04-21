@@ -819,7 +819,7 @@ async function doLocate() {
   }
 }
 
-// Pulisce indirizzi autolavaggi/officine (rimuove CAP, Italia, duplicati)
+// Pulisce indirizzi autolavaggi/officine
 function pulisciIndirizzo(addr) {
   if (!addr) return '';
   
@@ -832,27 +832,26 @@ function pulisciIndirizzo(addr) {
   // Split in parti
   let parts = addr.split(',').map(p => p.trim()).filter(p => p);
   
-  // Rimuovi duplicati considerando sia "Udine" che "Udine (UD)" come uguali
-  const seen = new Set();
-  parts = parts.filter(part => {
-    // Estrai il nome base del comune (rimuovi provincia tra parentesi)
-    const base = part.replace(/\s*\([A-Z]{2}\)\s*$/, '').trim();
-    
-    if (seen.has(base.toLowerCase())) {
-      return false; // Duplicato, scarta
+  // Trova l'indice della parte che contiene la sigla provincia (UD, PN, etc)
+  let provinciaIndex = -1;
+  for (let i = 0; i < parts.length; i++) {
+    if (/\b[A-Z]{2}\b/.test(parts[i])) {
+      provinciaIndex = i;
+      break;
     }
-    
-    seen.add(base.toLowerCase());
-    return true;
-  });
+  }
+  
+  // Se troviamo la provincia, taglia tutto dopo
+  if (provinciaIndex !== -1) {
+    parts = parts.slice(0, provinciaIndex + 1);
+    // Metti la provincia tra parentesi se non lo è già
+    parts[provinciaIndex] = parts[provinciaIndex].replace(/\b([A-Z]{2})\b/, '($1)');
+  }
   
   addr = parts.join(', ');
   
   // Pulisci virgole/spazi multipli
   addr = addr.replace(/,\s*,/g, ',').replace(/\s+/g, ' ').trim();
-  
-  // Metti provincia in parentesi se manca (UD → (UD))
-  addr = addr.replace(/\b([A-Z]{2})\b(?!\+)(?!\))/g, '($1)');
   
   return addr;
 }
