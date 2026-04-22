@@ -679,10 +679,14 @@ function setMode(newMode, btn) {
   } else if (isCarb) {
     distR.value = 5; distV.textContent = '5 km';
   }
-  if (gpsLat !== null && gpsLng !== null) {  // ← CAMBIATO QUI
-    clearPins();
-    isCarb ? doFetch() : doFetchServizi();
-  }
+  // Controlla sia GPS che ricerca manuale
+const hasGPS = (gpsLat !== null && gpsLng !== null);
+const hasManual = (lat !== null && lng !== null);
+
+if (hasGPS || hasManual) {
+  clearPins();
+  isCarb ? doFetch() : doFetchServizi();
+}
 }
 
 /* ── MAP ── */
