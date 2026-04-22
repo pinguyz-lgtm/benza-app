@@ -669,19 +669,16 @@ function setMode(newMode, btn) {
   mode = newMode;
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-
   const isCarb = mode === 'carburante';
   document.getElementById('pills').style.display   = isCarb ? 'grid' : 'none';
   document.getElementById('svcRow').style.display  = isCarb ? 'grid' : 'none';
-
   // Raggio di default per categoria
   if (mode === 'autolavaggio') {
     distR.value = 3; distV.textContent = '3 km';
   } else if (isCarb) {
     distR.value = 5; distV.textContent = '5 km';
   }
-
-  if (lat !== null) {
+  if (gpsLat !== null && gpsLng !== null) {  // ← CAMBIATO QUI
     clearPins();
     isCarb ? doFetch() : doFetchServizi();
   }
