@@ -415,18 +415,18 @@
     }
 
     /* ── FORCE MOBILE FONTS IN CAPACITOR APP ── */
-@supports (-webkit-touch-callout: none) {
-  /* iOS WebView detection */
-  .hero-title { font-size: 48px !important; }      /* era 40px → Logo MyBenza */
-  .hero-sub { font-size: 18px !important; }        /* era 16px → "24.000+ distributori..." */
-  .pill { font-size: 18px !important; padding: 14px 20px !important; }  /* era 16px → Bottoni carburante */
-  .mode-tab { font-size: 18px !important; padding: 14px 12px !important; }  /* era 16px → Tab Carburante/Autolavaggio/Officina */
-  .btn-gps { font-size: 20px !important; }         /* era 18px → Bottone "Usa la mia posizione" */
-  .search-input { font-size: 20px !important; }    /* era 18px → Campo ricerca comune */
-  .sb { font-size: 20px !important; }              /* era 18px → Nome distributore (CONAD) */
-  .sa { font-size: 16px !important; }              /* era 14px → Indirizzo */
-  .pm { font-size: 32px !important; }              /* era 28px → Prezzo (1.668) */
-  .status { font-size: 18px !important; }          /* era 16px → Badge "Migliore" */
+@media (max-width: 900px) {
+  .hero-title { font-size: 48px !important; }
+  .hero-sub { font-size: 18px !important; }
+  .pill { font-size: 18px !important; padding: 14px 20px !important; }
+  .mode-tab { font-size: 18px !important; padding: 14px 12px !important; }
+  .btn-gps { font-size: 20px !important; }
+  .search-input { font-size: 20px !important; }
+  .sb { font-size: 20px !important; }
+  .sa { font-size: 16px !important; }
+  .pm { font-size: 32px !important; }
+  .status { font-size: 18px !important; }
+  .svc-sponsor-badge { font-size: 13px !important; }
 }
 
     .upin { width: 20px; height: 20px; background: var(--accent); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 5px rgba(59,91,219,.22), 0 2px 10px rgba(0,0,0,.2); animation: pr 2.2s ease-out infinite; }
