@@ -671,8 +671,10 @@ function setMode(newMode, btn) {
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   const isCarb = mode === 'carburante';
-  document.getElementById('pills').style.display   = isCarb ? 'grid' : 'none';
-  document.getElementById('svcRow').style.display  = isCarb ? 'grid' : 'none';
+  const pills = document.getElementById('pills');
+const svcRow = document.getElementById('svcRow');
+if (pills) pills.style.display = isCarb ? 'grid' : 'none';
+if (svcRow) svcRow.style.display = isCarb ? 'grid' : 'none';
   // Raggio di default per categoria
   if (mode === 'autolavaggio') {
     distR.value = 3; distV.textContent = '3 km';
