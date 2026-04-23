@@ -672,23 +672,21 @@ function setMode(newMode, btn) {
   btn.classList.add('on');
   const isCarb = mode === 'carburante';
   const pills = document.getElementById('pills');
-const svcRow = document.getElementById('svcRow');
-if (pills) pills.style.display = isCarb ? 'grid' : 'none';
-if (svcRow) svcRow.style.display = isCarb ? 'grid' : 'none';
-  // Raggio di default per categoria
-  if (mode === 'autolavaggio') {
-    distR.value = 3; distV.textContent = '3 km';
-  } else if (isCarb) {
-    distR.value = 5; distV.textContent = '5 km';
-  }
+  const svcRow = document.getElementById('svcRow');
+  if (pills) pills.style.display = isCarb ? 'grid' : 'none';
+  if (svcRow) svcRow.style.display = isCarb ? 'grid' : 'none';
+  
+  // Raggio di default: 5 km per tutte le categorie
+  distR.value = 5;
+  distV.textContent = '5 km';
+  
   // Controlla sia GPS che ricerca manuale
-const hasGPS = (gpsLat !== null && gpsLng !== null);
-const hasManual = (lat !== null && lng !== null);
-
-if (hasGPS || hasManual) {
-  clearPins();
-  isCarb ? doFetch() : doFetchServizi();
-}
+  const hasGPS = (gpsLat !== null && gpsLng !== null);
+  const hasManual = (lat !== null && lng !== null);
+  if (hasGPS || hasManual) {
+    clearPins();
+    isCarb ? doFetch() : doFetchServizi();
+  }
 }
 
 /* ── MAP ── */
