@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>MyBenza · Prezzi carburante vicino a te</title>
   <meta name="description" content="Trova benzina, gasolio, GPL e metano al prezzo più basso vicino a te. Dati ufficiali MIMIT aggiornati ogni giorno."/>
   <meta name="theme-color" content="#ffffff"/>
@@ -56,6 +56,7 @@
       position: relative;
       z-index: 10;
       box-shadow: 4px 0 24px rgba(0,0,0,.06);
+      padding-top: env(safe-area-inset-top);
     }
     .panel > * { flex-shrink: unset; }
 
@@ -65,7 +66,7 @@
   align-items: center; 
   justify-content: space-between;
   flex-shrink: 0;
-  padding-top: calc(env(safe-area-inset-top) + 10px); 
+  padding-top: calc(env(safe-area-inset-top) + 20px); /* ✅ MODIFICATO */
 }
 
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
@@ -86,7 +87,7 @@
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: livepulse 2s ease-in-out infinite; }
     @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    .hero { padding: 6px 22px 0; flex-shrink: 0; }
+    .hero { padding: 18px 22px 0; flex-shrink: 0; }
     .hero-title { font-size: 45px; font-weight: 900; color: var(--text); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 6px; }
     .hero-title em { color: var(--accent); font-style: normal; }
     .hero-sub { font-size: 14px; font-weight: 600; color: var(--text2); line-height: 1.5; margin-bottom: 18px; }
@@ -156,7 +157,6 @@
       box-shadow: var(--sh-sm);
     }
     .svc-card:hover { border-color: var(--accent); box-shadow: var(--sh-md); transform: translateY(-2px); }
-    .svc-card:first-child { margin-top: 15px; }
     .svc-card.is-sponsor { border-color: #C7D2FE; background: linear-gradient(135deg,#F7F9FF,#EEF2FF); }
     .svc-card-ico {
       width: 48px; height: 48px; border-radius: 14px;
@@ -169,11 +169,11 @@
     .svc-ico-soccorso     { background: #FEE2E2; }
     .svc-card-ico svg     { width: 28px; height: 28px; }
     .svc-card-body { flex: 1; min-width: 0; }
-    .svc-card-name { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 2px; }
-    .svc-card-addr { font-size: 14px; font-weight: 600; color: var(--text2); margin-bottom: 6px; line-height: 1.4; }
+    .svc-card-name { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+    .svc-card-addr { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; line-height: 1.4; }
     .svc-orario {
       display: flex; align-items: flex-start; gap: 5px;
-      font-size: 14px; font-weight: 600; color: var(--green);
+      font-size: 12px; font-weight: 600; color: var(--green);
       background: var(--glt); border-radius: 7px;
       padding: 5px 9px; margin-bottom: 6px;
       line-height: 1.4;
@@ -189,7 +189,7 @@
     .svc-card-dist { text-align: right; flex-shrink: 0; }
     .svc-dist-val { font-size: 20px; font-weight: 900; color: var(--accent); line-height: 1; }
     .svc-dist-unit { font-size: 11px; font-weight: 700; color: var(--text3); }
-    .svc-sponsor-badge { font-size: 13px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
+    .svc-sponsor-badge { font-size: 9px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
     .svc-card-actions { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
     .svc-card.svc-card-scarsa { opacity: 0.72; }
     .svc-card.svc-card-scarsa .svc-card-name { color: var(--text2); }
@@ -215,17 +215,17 @@
     .controls { padding: 0 22px 16px; flex-shrink: 0; }
 
     .btn-gps {
-  width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
-  background: #10b981; border: none; border-radius: var(--r-lg);
-  padding: 18px 22px; font-family: var(--font); font-size: 17px; font-weight: 800;
-  color: #fff; cursor: pointer; letter-spacing: -.01em;
-  box-shadow: 0 6px 24px rgba(16, 185, 129, .4);
-  transition: transform .14s, box-shadow .14s, background .14s;
-  margin-bottom: 10px;
-}
-.btn-gps:hover { background: #059669; box-shadow: 0 8px 28px rgba(16, 185, 129, .5); transform: translateY(-2px); }
-.btn-gps:active { transform: translateY(0); box-shadow: 0 3px 10px rgba(16, 185, 129, .3); }
-.btn-gps:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--accent); border: none; border-radius: var(--r-lg);
+      padding: 18px 22px; font-family: var(--font); font-size: 17px; font-weight: 800;
+      color: #fff; cursor: pointer; letter-spacing: -.01em;
+      box-shadow: 0 6px 24px rgba(59,91,219,.4);
+      transition: transform .14s, box-shadow .14s, background .14s;
+      margin-bottom: 10px;
+    }
+    .btn-gps:hover { background: var(--acdk); box-shadow: 0 8px 28px rgba(59,91,219,.5); transform: translateY(-2px); }
+    .btn-gps:active { transform: translateY(0); box-shadow: 0 3px 10px rgba(59,91,219,.3); }
+    .btn-gps:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .or-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
     .or-line { flex: 1; height: 1px; background: var(--border); }
@@ -312,7 +312,6 @@
       box-shadow: var(--sh-sm); position: relative;
     }
     .sc:hover { border-color: var(--accent); box-shadow: var(--sh-md); transform: translateY(-2px); }
-    .sc:first-child { margin-top: 15px; }
     .sc.best {
       border-color: #16A34A; border-width: 2px;
       background: linear-gradient(160deg,#F0FDF4,#FFFFFF);
@@ -361,8 +360,8 @@
     .sp-logo-txt { font-size: 16px; font-weight: 900; color: var(--accent); }
     .sp-header { grid-column: 2; grid-row: 1; display: flex; align-items: center; justify-content: space-between; }
     .sp-lbl { font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); }
-    .sp-name { font-size: 18px; font-weight: 800; color: var(--text); }
-    .sp-desc { grid-column: 2; grid-row: 2; font-size: 14px; font-weight: 600; color: var(--text2); line-height: 1.4; margin-top: 2px; }
+    .sp-name { font-size: 15px; font-weight: 800; color: var(--text); }
+    .sp-desc { grid-column: 2; grid-row: 2; font-size: 12px; font-weight: 600; color: var(--text2); line-height: 1.4; margin-top: 2px; }
     .sp-bottom { grid-column: 1 / -1; grid-row: 3; margin-top: 11px; display: flex; align-items: center; gap: 8px; }
     .sp-promo { display: inline-flex; align-items: center; gap: 6px; background: var(--golt); border: 1.5px dashed var(--gold); border-radius: 7px; padding: 5px 10px; cursor: pointer; transition: background .14s; flex-shrink: 0; }
     .sp-promo:hover { background: #FDE68A; }
@@ -409,25 +408,10 @@
       .panel { width: 100%; height: auto; overflow-y: visible; border-right: none; border-bottom: 1px solid var(--border); }
       #map { position: relative; width: 100%; height: 55vh!important; order: 2; }
       .list { padding: 0 16px 20px; }
-      .hero { padding: 6px 16px 0; }
+      .hero { padding: 14px 16px 0; }
       .controls { padding: 0 16px 12px; }
       .mode-tab { font-size: 16px !important; padding: 12px 10px !important; }
     }
-
-    /* ── FORCE MOBILE FONTS IN CAPACITOR APP ── */
-@media (max-width: 900px) {
-  .hero-title { font-size: 48px !important; }
-  .hero-sub { font-size: 18px !important; }
-  .pill { font-size: 18px !important; padding: 14px 20px !important; }
-  .mode-tab { font-size: 18px !important; padding: 14px 12px !important; }
-  .btn-gps { font-size: 20px !important; }
-  .search-input { font-size: 20px !important; }
-  .sb { font-size: 20px !important; }
-  .sa { font-size: 16px !important; }
-  .pm { font-size: 32px !important; }
-  .status { font-size: 18px !important; }
-  .svc-sponsor-badge { font-size: 13px !important; }
-}
 
     .upin { width: 20px; height: 20px; background: var(--accent); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 5px rgba(59,91,219,.22), 0 2px 10px rgba(0,0,0,.2); animation: pr 2.2s ease-out infinite; }
     @keyframes pr { 0%{box-shadow:0 0 0 5px rgba(59,91,219,.22),0 2px 10px rgba(0,0,0,.2)} 60%{box-shadow:0 0 0 16px rgba(59,91,219,.0),0 2px 10px rgba(0,0,0,.2)} 100%{box-shadow:0 0 0 5px rgba(59,91,219,.22),0 2px 10px rgba(0,0,0,.2)} }
@@ -487,6 +471,59 @@
     .seg-msg { font-size: 13px; font-weight: 700; text-align: center; margin-top: 14px; min-height: 20px; line-height: 1.5; }
     .seg-msg.ok  { color: var(--green); }
     .seg-msg.err { color: #EF4444; }
+
+    /* ── PREMIUM BANNER ── */
+.sp-premium {
+  position: relative; overflow: hidden;
+  background: var(--surface);
+  border: 1.5px solid #D97706;
+  border-radius: var(--r-lg);
+  margin-bottom: 10px;
+  box-shadow: 0 2px 12px rgba(217,119,6,.12);
+  transition: box-shadow .15s, transform .12s;
+}
+.sp-premium:hover { box-shadow: 0 4px 20px rgba(217,119,6,.22); transform: translateY(-2px); }
+.sp-prem-ribbon {
+  position: absolute; top: 0; left: 0;
+  background: #D97706; color: #fff;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: .05em;
+  padding: 4px 12px 4px 10px;
+  border-bottom-right-radius: 10px;
+  display: flex; align-items: center; gap: 5px;
+}
+.sp-prem-body { padding: 14px 16px; margin-top: 18px; }
+.sp-prem-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sp-prem-logo {
+  width: 52px; height: 52px; flex-shrink: 0;
+  background: #fff; border: 1.5px solid #FBBF24;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.sp-prem-logo img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.sp-prem-logo .sp-logo-txt { font-size: 17px; font-weight: 900; color: var(--accent); }
+.sp-prem-info { flex: 1; min-width: 0; }
+.sp-prem-name { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+.sp-prem-desc { font-size: 12px; font-weight: 600; color: var(--text2); line-height: 1.45; }
+.sp-prem-btns { display: flex; gap: 8px; }
+.sp-prem-btn-visita {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 10px;
+  padding: 10px 0; font-family: var(--font); font-size: 13px; font-weight: 800;
+  text-decoration: none; cursor: pointer;
+  transition: background .14s;
+}
+.sp-prem-btn-visita:hover { background: var(--acdk); }
+.sp-prem-btn-mappa {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: #0A7C55; color: #fff;
+  border: none; border-radius: 10px;
+  padding: 10px 0; font-family: var(--font); font-size: 13px; font-weight: 800;
+  cursor: pointer; transition: background .14s;
+}
+.sp-prem-btn-mappa:hover { background: #085C3F; }
+
   </style>
   <link rel="manifest" href="/manifest.json"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -506,40 +543,24 @@
             <path d="M11 2C7.41 2 4.5 4.91 4.5 8.5c0 5 6.5 11.5 6.5 11.5s6.5-6.5 6.5-11.5C17.5 4.91 14.59 2 11 2zm0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="white"/>
           </svg>
         </div>
-        <span class="logo-name">My<em>Benza</em></span>
+        <span class="logo-name">ben<em>za</em></span>
       </a>
       <div class="live-badge"><span class="live-dot"></span>Prezzi Live</div>
     </div>
 
     <div class="hero">
       <h1 class="hero-title">Il pieno <em>a meno</em></h1>
-      <p class="hero-sub">Prezzi aggiornati da +24.000 distributori</p>
+      <p class="hero-sub">24.000+ distributori · prezzi aggiornati ogni mattina</p>
 
       <!-- Tab modalità: Carburante full width, servizi sotto -->
       <div class="mode-tabs" id="modeTabs">
         <button class="mode-tab on" data-mode="carburante" onclick="setMode('carburante',this)" style="width:100%;">
-          <svg class="tab-ico" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"></path>
-          </svg>
+          <svg class="tab-ico" viewBox="0 0 24 24" fill="none"><path d="M5 22V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 22h12M9 7v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15 10h1a2 2 0 0 1 2 2v2a1 1 0 0 0 1 1h0a1 1 0 0 0 1-1V9l-2-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Carburante
         </button>
         <div class="mode-tabs-servizi">
           <button class="mode-tab" data-mode="autolavaggio" onclick="setMode('autolavaggio',this)">
-            <svg class="tab-ico" viewBox="0 0 24 24" fill="none">
-  <path d="M3 23 L3 8 Q3 3 8 3 L16 3 Q21 3 21 8 L21 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"></path>
-  <line x1="3" y1="10" x2="6" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
-  <line x1="3" y1="14" x2="6" y2="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
-  <line x1="3" y1="18" x2="6" y2="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
-  <line x1="21" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
-  <line x1="21" y1="14" x2="18" y2="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
-  <line x1="21" y1="18" x2="18" y2="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
-  <path d="M10 4c0 0-.7 1.8-.7 2.4a.7.7 0 0 0 1.4 0C10.7 5.8 10 4 10z" fill="currentColor" opacity=".8"></path>
-  <path d="M12 3c0 0-.9 2.2-.9 3a.9.9 0 0 0 1.8 0C12.9 5.2 12 3 12z" fill="currentColor"></path>
-  <path d="M14 4c0 0-.7 1.8-.7 2.4a.7.7 0 0 0 1.4 0C14.7 5.8 14 4 14z" fill="currentColor" opacity=".8"></path>
-  <path d="M7 22h10M8 22v-4l1.5-2.5h5L16 18v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-  <circle cx="9.5" cy="22.5" r="1.2" fill="currentColor"></circle>
-  <circle cx="14.5" cy="22.5" r="1.2" fill="currentColor"></circle>
-</svg>
+            <svg class="tab-ico" viewBox="0 0 24 24" fill="none"><path d="M3 18h18M5 18v-6l2-4h10l2 4v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.5" cy="18.5" r="1.5" fill="currentColor"/><circle cx="16.5" cy="18.5" r="1.5" fill="currentColor"/><path d="M8 6c0-2 1.5-3 4-3s4 1 4 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 10c2-1.5 10-1.5 12 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             Autolavaggio
           </button>
           <button class="mode-tab" data-mode="officina" onclick="setMode('officina',this)">
@@ -594,6 +615,11 @@
       </div>
 
       <!-- Service type (solo carburante) -->
+      <div class="svc-row" id="svcRow">
+        <button class="svc on" onclick="setSvc(this,'self')">Self service</button>
+        <button class="svc"    onclick="setSvc(this,'servito')">Servito</button>
+        <button class="svc"    onclick="setSvc(this,'both')">Entrambi</button>
+      </div>
 
       <div class="dist-row">
         <span class="dlbl">Raggio</span>
@@ -623,8 +649,9 @@
     </div>
 
     <div class="foot">
-      Fonte: <a href="https://www.mimit.gov.it" target="_blank">MIMIT</a> · MyBenza by ·
-      <a href="https://www.pinguyweb.it" target="_blank">PinguyWeb</a>
+      Fonte: <a href="https://www.mimit.gov.it" target="_blank">MIMIT</a> · aggiornamento giornaliero ·
+      <a href="https://agenziawebudine.com" target="_blank">PinguyWeb</a> ·
+      <a href="/privacy-policy.html">Privacy & Cookie</a>
     </div>
 
   </aside>
@@ -654,13 +681,21 @@ function distanzaKm(lat1, lng1, lat2, lng2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-function getSponsorsByArea(userLat, userLng) {
-  return SPONSORS.filter(sp => !sp.lat || distanzaKm(userLat, userLng, sp.lat, sp.lng) <= sp.raggio);
+function getSponsorsByArea(userLat, userLng, categoria) {
+  return SPONSORS.filter(sp => {
+    const inZona = !sp.lat || distanzaKm(userLat, userLng, sp.lat, sp.lng) <= sp.raggio;
+    if (!inZona) return false;
+    const cat = sp.categorie || 'carburante';
+    if (cat === 'carburante') return categoria === 'carburante';
+    if (cat === 'carburante_autolavaggio') return categoria === 'carburante' || categoria === 'autolavaggio';
+    if (cat === 'tutte') return true;
+    return categoria === 'carburante';
+  });
 }
 
 /* ── STATE ── */
 let fuel = 'benzina', svc = 'self', mode = 'carburante';
-let lat = null, lng = null, gpsLat = null, gpsLng = null;
+let lat = null, lng = null;
 let stations = [], markers = [], uMk = null, popups = {};
 let acTimer = null;
 let spIdx = 0, sponsorAttivi = [];
@@ -670,20 +705,19 @@ function setMode(newMode, btn) {
   mode = newMode;
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
+
   const isCarb = mode === 'carburante';
-  const pills = document.getElementById('pills');
-  const svcRow = document.getElementById('svcRow');
-  if (pills) pills.style.display = isCarb ? 'grid' : 'none';
-  if (svcRow) svcRow.style.display = isCarb ? 'grid' : 'none';
-  
-  // Raggio di default: 5 km per tutte le categorie
-  distR.value = 5;
-  distV.textContent = '5 km';
-  
-  // Controlla sia GPS che ricerca manuale
-  const hasGPS = (gpsLat !== null && gpsLng !== null);
-  const hasManual = (lat !== null && lng !== null);
-  if (hasGPS || hasManual) {
+  document.getElementById('pills').style.display   = isCarb ? 'grid' : 'none';
+  document.getElementById('svcRow').style.display  = isCarb ? 'grid' : 'none';
+
+  // Raggio di default per categoria
+  if (mode === 'autolavaggio') {
+    distR.value = 3; distV.textContent = '3 km';
+  } else if (isCarb) {
+    distR.value = 5; distV.textContent = '5 km';
+  }
+
+  if (lat !== null) {
     clearPins();
     isCarb ? doFetch() : doFetchServizi();
   }
@@ -739,13 +773,16 @@ function setStatus(state, msg) {
 }
 
 /* ── GPS ── */
-async function doLocate() {
-  // Importa il plugin Capacitor Geolocation
-  const { Geolocation } = window.Capacitor?.Plugins || {};
-  
-  if (!Geolocation) {
+function doLocate() {
+  if (!('geolocation' in navigator)) { 
     setStatus('err', 'Geolocalizzazione non supportata'); 
-    return;
+    return; 
+  }
+  
+  const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
+  if (location.protocol === 'http:' && !isLocal) { 
+    showErr('Serve HTTPS','Attiva il certificato SSL gratuito: cPanel → SSL/TLS → Let\'s Encrypt.',false,true); 
+    return; 
   }
   
   const btn = document.getElementById('locBtn');
@@ -761,101 +798,50 @@ async function doLocate() {
     showErr('Timeout GPS', 'La posizione non è stata rilevata entro 10 secondi. Riprova o cerca manualmente il tuo comune.', true, false);
   }, 10000);
   
-  try {
-    // ✅ PRIMA: Controlla il permesso
-    const permissionStatus = await Geolocation.checkPermissions();
-    
-    // Se il permesso non è stato ancora richiesto o è stato negato, richiedilo
-    if (permissionStatus.location !== 'granted') {
-      const requestResult = await Geolocation.requestPermissions();
-      if (requestResult.location !== 'granted') {
-        clearTimeout(timeoutId);
-        btn.disabled = false;
-        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
-        setStatus('err', 'Permesso negato');
-        showErr('Permesso negato', 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → MyBenza → Posizione → Consenti mentre usi l\'app', true, false);
-        return;
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      // ✅ SUCCESSO: cancella timeout e procedi
+      clearTimeout(timeoutId);
+      lat = pos.coords.latitude; 
+      lng = pos.coords.longitude;
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Aggiorna posizione`;
+      placeUser();
+      mode === 'carburante' ? doFetch() : doFetchServizi();
+    },
+    err => {
+      // ✅ ERRORE: cancella timeout e mostra messaggio appropriato
+      clearTimeout(timeoutId);
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
+      
+      let errorTitle = 'Errore GPS';
+      let errorMsg = 'Impossibile ottenere la posizione.';
+      
+      switch(err.code) {
+        case err.PERMISSION_DENIED:
+          errorTitle = 'Permesso negato';
+          errorMsg = 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → MyBenza → Posizione → Consenti mentre usi l\'app\n\nSafari: Impostazioni → Safari → Posizione → Consenti';
+          break;
+        case err.POSITION_UNAVAILABLE:
+          errorTitle = 'Posizione non disponibile';
+          errorMsg = 'Il GPS del dispositivo non è disponibile. Verifica di essere all\'aperto o cerca manualmente il tuo comune.';
+          break;
+        case err.TIMEOUT:
+          errorTitle = 'Timeout';
+          errorMsg = 'La richiesta GPS è scaduta. Riprova o cerca manualmente il tuo comune.';
+          break;
       }
+      
+      setStatus('err', errorTitle);
+      showErr(errorTitle, errorMsg, true, false);
+    },
+    { 
+      enableHighAccuracy: true, 
+      timeout: 10000,  // ✅ 10 secondi max
+      maximumAge: 0    // ✅ No cache, richiedi posizione fresca
     }
-    
-    // ✅ POI: Ottieni la posizione
-    const position = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: false,
-      timeout: 5000,
-      maximumAge: 0
-    });
-    
-    clearTimeout(timeoutId);
-    lat = position.coords.latitude;
-    lng = position.coords.longitude;
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Aggiorna posizione`;
-    placeUser();
-    mode === 'carburante' ? doFetch() : doFetchServizi();
-    
-  } catch (err) {
-    clearTimeout(timeoutId);
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
-    
-    let errorTitle = 'Errore GPS';
-    let errorMsg = 'Impossibile ottenere la posizione.';
-    
-    console.error('GPS Error:', err);
-    
-    // Gestione errori
-    const errMsg = (err.message || '').toLowerCase();
-    if (errMsg.includes('permission') || errMsg.includes('denied')) {
-      errorTitle = 'Permesso negato';
-      errorMsg = 'Hai negato l\'accesso alla posizione. Per attivarla:\n\niOS: Impostazioni → MyBenza → Posizione → Consenti mentre usi l\'app';
-    } else if (errMsg.includes('unavailable') || errMsg.includes('position')) {
-      errorTitle = 'Posizione non disponibile';
-      errorMsg = 'Il GPS del dispositivo non è disponibile. Verifica di essere all\'aperto o cerca manualmente il tuo comune.';
-    } else if (errMsg.includes('timeout')) {
-      errorTitle = 'Timeout';
-      errorMsg = 'La richiesta GPS è scaduta. Riprova o cerca manualmente il tuo comune.';
-    }
-    
-    setStatus('err', errorTitle);
-    showErr(errorTitle, errorMsg, true, false);
-  }
-}
-
-// Pulisce indirizzi autolavaggi/officine
-function pulisciIndirizzo(addr) {
-  if (!addr) return '';
-  
-  // Rimuovi CAP (5 cifre)
-  addr = addr.replace(/\b\d{5}\b/g, '');
-  
-  // Rimuovi ", Italia"
-  addr = addr.replace(/,\s*Italia/gi, '');
-  
-  // Split in parti
-  let parts = addr.split(',').map(p => p.trim()).filter(p => p);
-  
-  // Trova l'indice della parte che contiene la sigla provincia (UD, PN, etc)
-  let provinciaIndex = -1;
-  for (let i = 0; i < parts.length; i++) {
-    if (/\b[A-Z]{2}\b/.test(parts[i])) {
-      provinciaIndex = i;
-      break;
-    }
-  }
-  
-  // Se troviamo la provincia, taglia tutto dopo
-  if (provinciaIndex !== -1) {
-    parts = parts.slice(0, provinciaIndex + 1);
-    // Metti la provincia tra parentesi se non lo è già
-    parts[provinciaIndex] = parts[provinciaIndex].replace(/\b([A-Z]{2})\b/, '($1)');
-  }
-  
-  addr = parts.join(', ');
-  
-  // Pulisci virgole/spazi multipli
-  addr = addr.replace(/,\s*,/g, ',').replace(/\s+/g, ' ').trim();
-  
-  return addr;
+  );
 }
 
 /* ── CITY SEARCH ── */
@@ -1001,6 +987,8 @@ function getSvcSvg(tipo, color) {
 
 function doRenderServizi(results) {
   clearPins();
+  sponsorAttivi = getSponsorsByArea(lat, lng, mode).sort(() => Math.random() - 0.5);
+  spIdx = 0;
   const el  = document.getElementById('list');
   const hdr = document.getElementById('resHdr');
 
@@ -1026,10 +1014,14 @@ function doRenderServizi(results) {
   setStatus('ok', results.length + ' ' + labelServizio(mode) + ' · ' + distR.value + ' km');
 
   el.innerHTML = '';
-  results.forEach(function(s, i) {
-    el.appendChild(mkSvcCard(s, i));
-    addSvcPin(s, i);
-  });
+results.forEach(function(s, i) {
+  if (i > 0 && i % 3 === 0) {
+    const sp = mkSponsor();
+    if (sp.innerHTML) el.appendChild(sp);
+  }
+  el.appendChild(mkSvcCard(s, i));
+  addSvcPin(s, i);
+});
 
   const note = document.createElement('p');
   note.style.cssText = 'font-size:11px;font-weight:600;color:var(--text3);text-align:center;padding:12px 0 4px';
@@ -1078,7 +1070,7 @@ function mkSvcCard(s, i) {
     '<div class="svc-card-ico ' + col + '">' + getSvcSvg(s.tipo, pinCol) + '</div>' +
     '<div class="svc-card-body">' +
       '<div class="svc-card-name">' + x(nome) + (s.is_sponsor ? ' <span class="svc-sponsor-badge">★ Sponsor</span>' : '') + (!hasNome ? ' <span style="font-size:10px;font-weight:600;color:var(--text3);">· posizione GPS</span>' : '') + '</div>' +
-      (addr ? '<div class="svc-card-addr">' + x(pulisciIndirizzo(addr)) + '</div>' : (s.citta ? '<div class="svc-card-addr">' + x(s.citta) + '</div>' : '')) +
+      (addr ? '<div class="svc-card-addr">' + x(addr) + '</div>' : (s.citta ? '<div class="svc-card-addr">' + x(s.citta) + '</div>' : '')) +
       orarioHtml +
       '<div class="svc-card-actions">' +
         telHtml +
@@ -1297,7 +1289,9 @@ function getSvcSvgPin(tipo, cx, sz) {
 ══════════════════════════════════════════ */
 function doRender(raw) {
   clearPins(); spIdx = 0;
-  sponsorAttivi = getSponsorsByArea(lat, lng).sort(() => Math.random() - 0.5);
+  const tuttiSponsor = getSponsorsByArea(lat, lng, 'carburante').sort(() => Math.random() - 0.5);
+  const sponsorPremium = tuttiSponsor.filter(s => s.tipo === 'premium');
+  sponsorAttivi = tuttiSponsor.filter(s => s.tipo !== 'premium');
 
   let list = [...raw];
   if (svc === 'self')    list = list.filter(s => s.self === true);
@@ -1321,6 +1315,12 @@ function doRender(raw) {
 
   const minP = list[0].prezzo;
   el.innerHTML = '';
+
+  if (sponsorPremium.length) {
+    const sp = sponsorPremium[Math.floor(Math.random() * sponsorPremium.length)];
+    el.appendChild(mkPremiumBanner(sp));
+    trackEvent('impression', sp.name);
+  }
 
   list.forEach((s, i) => {
     if (i > 0 && i % 2 === 0) el.appendChild(mkSponsor());
@@ -1403,6 +1403,81 @@ function trackEvent(event, sponsor) {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({ event, sponsor })
   }).catch(() => {});
+}
+
+function mkPremiumBanner(sp) {
+  const wrap = document.createElement('div');
+  wrap.className = 'sp-premium';
+  const logoHtml = sp.logo
+    ? `<img src="${x(sp.logo)}" alt="${x(sp.name)}">`
+    : `<span class="sp-logo-txt">${x(sp.logoTxt || sp.name.substring(0,2))}</span>`;
+  const mappaBtn = sp.lat
+    ? `<button class="sp-prem-btn-mappa" onclick="flyToSponsor(${sp.lat},${sp.lng})">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+        Mappa
+      </button>`
+    : '';
+  wrap.innerHTML = `
+    <div class="sp-prem-ribbon">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Premium
+    </div>
+    <div class="sp-prem-body">
+      <div class="sp-prem-top">
+        <div class="sp-prem-logo">${logoHtml}</div>
+        <div class="sp-prem-info">
+          <div class="sp-prem-name">${x(sp.name)}</div>
+          <div class="sp-prem-desc">${x(sp.desc)}</div>
+        </div>
+      </div>
+      <div class="sp-prem-btns">
+        <a class="sp-prem-btn-visita" href="${x(sp.url)}" target="_blank" rel="noopener"
+           onclick="trackEvent('click','${x(sp.name)}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          ${x(sp.cta || 'Visita')}
+        </a>
+        ${mappaBtn}
+      </div>
+    </div>`;
+  return wrap;
+}
+
+let premiumMarker = null;
+
+function flyToSponsor(lat, lng) {
+  map.flyTo({ center: [lng, lat], zoom: 15, duration: 1000 });
+  if (window.innerWidth < 900) {
+    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  if (premiumMarker) { premiumMarker.remove(); premiumMarker = null; }
+
+  const el = document.createElement('div');
+  el.style.cssText = 'width:72px;height:72px;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(217,119,6,.5));';
+  el.innerHTML = `<svg viewBox="0 0 72 72" fill="none">
+    <circle cx="36" cy="36" r="34" fill="white" stroke="#D97706" stroke-width="1.5" opacity=".2"/>
+    <circle cx="36" cy="36" r="30" fill="#D97706"/>
+    <path d="M36 18C30.48 18 26 22.48 26 28c0 7.88 10 18 10 18s10-10.12 10-18c0-5.52-4.48-10-10-10zm0 13.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" fill="white"/>
+  </svg>`;
+
+  const isMob = window.innerWidth < 900;
+  const pop = new mapboxgl.Popup({
+    anchor: isMob ? 'top' : 'bottom',
+    offset: isMob ? [0, 44] : [0, -44],
+    closeOnClick: true,
+    focusAfterOpen: false,
+    maxWidth: '240px'
+  }).setHTML(
+    '<a class="pop-btn" href="https://www.google.com/maps?q=' + lat + ',' + lng + '" target="_blank" rel="noopener">Google Maps</a>' +
+    '<a class="pop-btn" style="background:#1C1C1E;margin-top:6px;display:block;" href="https://maps.apple.com/?q=' + lat + ',' + lng + '" target="_blank" rel="noopener">Apple Maps</a>' +
+    '<a class="pop-btn" style="background:#1A73E8;margin-top:6px;display:block;" href="https://waze.com/ul?ll=' + lat + ',' + lng + '&navigate=yes" target="_blank" rel="noopener">Waze</a>'
+  );
+
+  premiumMarker = new mapboxgl.Marker({ element: el })
+    .setLngLat([lng, lat])
+    .setPopup(pop)
+    .addTo(map);
+
+  setTimeout(() => pop.addTo(map), 1100);
 }
 
 function mkSponsor() {
@@ -1501,7 +1576,7 @@ async function inviaSegnalazione() {
   document.getElementById('segMsg').textContent='Verifica posizione GPS...'; document.getElementById('segMsg').className='seg-msg';
   let gpsLat, gpsLng;
   try {
-    const pos = await new Promise((resolve,reject) => navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:false,timeout:5000,maximumAge:0}));
+    const pos = await new Promise((resolve,reject) => navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:10000,maximumAge:0}));
     gpsLat=pos.coords.latitude; gpsLng=pos.coords.longitude;
   } catch(e) { document.getElementById('segMsg').textContent='GPS non disponibile.'; document.getElementById('segMsg').className='seg-msg err'; return; }
   document.getElementById('segMsg').textContent='Invio in corso…';
