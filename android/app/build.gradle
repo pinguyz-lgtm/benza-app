@@ -16,6 +16,21 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+    release {
+        storeFile file(System.getenv("CM_KEYSTORE_PATH") ?: "mybenza.keystore")
+        storePassword System.getenv("CM_KEYSTORE_PASSWORD") ?: "7477Pippo!"
+        keyAlias System.getenv("CM_KEY_ALIAS") ?: "mybenza"
+        keyPassword System.getenv("CM_KEY_PASSWORD") ?: "7477Pippo!"
+    }
+}
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+        minifyEnabled false
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+}
     buildTypes {
         release {
             minifyEnabled false
