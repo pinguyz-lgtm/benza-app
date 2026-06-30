@@ -758,8 +758,8 @@ async function doLocate() {
     btn.disabled = false;
     btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Usa la mia posizione`;
     setStatus('err', 'Timeout: posizione non disponibile');
-    showErr('Timeout GPS', 'La posizione non è stata rilevata entro 10 secondi. Riprova o cerca manualmente il tuo comune.', true, false);
-  }, 10000);
+    showErr('Timeout GPS', 'La posizione non è stata rilevata entro 20 secondi. Riprova o cerca manualmente il tuo comune.', true, false);
+  }, 20000);
   
   try {
     // ✅ PRIMA: Controlla il permesso
@@ -780,8 +780,8 @@ async function doLocate() {
     
     // ✅ POI: Ottieni la posizione
     const position = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: false,
-      timeout: 5000,
+      enableHighAccuracy: true,
+      timeout: 15000,
       maximumAge: 0
     });
     
