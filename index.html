@@ -277,7 +277,7 @@
 
     .dist-row { display: flex; align-items: center; gap: 14px; }
     .dlbl { font-size: 13px; font-weight: 700; color: var(--text2); white-space: nowrap; }
-    input[type=range] { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: var(--surf3); border-radius: 3px; outline: none; cursor: pointer; }
+    input[type=range] { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: var(--surf3); border-radius: 3px; outline: none; cursor: pointer; touch-action: pan-y; }
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--accent), var(--sh-sm); cursor: pointer; }
     .dval { font-size: 14px; font-weight: 800; color: var(--text); min-width: 46px; text-align: right; }
 
@@ -778,16 +778,16 @@ async function doLocate() {
       }
     }
     
-    // ✅ POI: Ottieni la posizione
     const position = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
       timeout: 15000,
-      maximumAge: 0
+      maximumAge: 30000
     });
     
     clearTimeout(timeoutId);
     lat = position.coords.latitude;
     lng = position.coords.longitude;
+    localStorage.setItem('mybenza_lastPos', JSON.stringify({ lat, lng, ts: Date.now() }));
     btn.disabled = false;
     btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="white" stroke-width="2"/><circle cx="11" cy="11" r="3.5" fill="white"/></svg> Aggiorna posizione`;
     placeUser();
@@ -1518,6 +1518,17 @@ async function inviaSegnalazione() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Ripristina l'ultima posizione nota, se recente (max 3 ore)
+  try {
+    const saved = JSON.parse(localStorage.getItem('mybenza_lastPos'));
+    if (saved && saved.lat && saved.lng && (Date.now() - saved.ts) < 10800000) {
+      lat = saved.lat;
+      lng = saved.lng;
+      placeUser();
+      mode === 'carburante' ? doFetch() : doFetchServizi();
+    }
+  } catch(e) {}
+
   document.getElementById('segOverlay').addEventListener('click', function(e) { if(e.target===this) chiudiSegnalazione(); });
   for (var i=0;i<4;i++) {
     (function(idx) {
