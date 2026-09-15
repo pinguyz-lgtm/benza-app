@@ -1448,9 +1448,7 @@ function addPin(s, i, minP) {
     <a class="pop-btn" style="background:#1A73E8;" href="https://waze.com/ul?ll=${s.latitudine},${s.longitudine}&navigate=yes" target="_blank" rel="noopener">Waze</a>`);
   const mk = new mapboxgl.Marker({ element: el }).setLngLat([+s.longitudine,+s.latitudine]).setPopup(pop).addTo(map);
   el.addEventListener('click', () => {
-    document.querySelectorAll('.sc.sel').forEach(c => c.classList.remove('sel'));
-    const card = document.querySelector(`.sc[data-i="${i}"]`);
-    if (card) { card.classList.add('sel'); card.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
+    // nessuna azione sul pannello — il popup si apre automaticamente via Mapbox
   });
   popups[i] = pop; markers.push(mk);
 }
