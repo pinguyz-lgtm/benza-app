@@ -42,32 +42,6 @@
       --font: 'Nunito', sans-serif;
     }
 
-    /* ── DARK MODE ── */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:       #0D1117;
-        --surface:  #161B22;
-        --surf2:    #1C2128;
-        --surf3:    #21262D;
-        --border:   #30363D;
-        --border2:  #484F58;
-        --text:     #E6EDF3;
-        --text2:    #8B949E;
-        --text3:    #6E7681;
-        --aclt:     #1C2A4A;
-        --glt:      #0D2818;
-        --golt:     #2D1F00;
-      }
-      .mapboxgl-popup-content { background: #161B22 !important; border-color: #30363D !important; }
-      .pop-brand { color: #E6EDF3; }
-      .pop-addr  { color: #8B949E; }
-      .seg-modal { background: #161B22; }
-      .search-input { background: #1C2128; color: #E6EDF3; }
-      .ac-drop { background: #161B22; border-color: #30363D; }
-      .ac-item { color: #E6EDF3; }
-      .ac-item:hover { background: #1C2A4A; }
-    }
-
     html { scroll-behavior: smooth; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100dvh; }
 
@@ -100,7 +74,7 @@
       border-radius: 13px; display: flex; align-items: center; justify-content: center;
       box-shadow: 0 4px 14px rgba(59,91,219,.38); flex-shrink: 0;
     }
-    .logo-name { font-size: 28px; font-weight: 900; color: var(--text); letter-spacing: -.03em; }
+    .logo-name { font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -.03em; }
     .logo-name em { color: var(--accent); font-style: normal; }
 
     .live-badge {
@@ -113,9 +87,9 @@
     @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
     .hero { padding: 6px 22px 0; flex-shrink: 0; }
-    .hero-title { font-size: 47px; font-weight: 900; color: var(--text); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 6px; }
+    .hero-title { font-size: 45px; font-weight: 900; color: var(--text); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 6px; }
     .hero-title em { color: var(--accent); font-style: normal; }
-    .hero-sub { font-size: 16px; font-weight: 600; color: var(--text2); line-height: 1.5; margin-bottom: 18px; }
+    .hero-sub { font-size: 14px; font-weight: 600; color: var(--text2); line-height: 1.5; margin-bottom: 18px; }
 
     /* ── FUEL PILLS ── */
     .pills {
@@ -127,7 +101,7 @@
     .pill {
       border: 2px solid var(--border); background: transparent;
       border-radius: 100px; padding: 10px 18px;
-      font-family: var(--font); font-size: 16px; font-weight: 700;
+      font-family: var(--font); font-size: 14px; font-weight: 700;
       color: var(--text2); cursor: pointer; transition: all .16s;
       display: flex; align-items: center; justify-content: center;
       gap: 6px; white-space: nowrap;
@@ -143,7 +117,7 @@
     .mode-tab {
       border: 2px solid var(--border); background: var(--surf2);
       border-radius: var(--r-sm); padding: 10px 8px;
-      font-family: var(--font); font-size: 15px; font-weight: 700;
+      font-family: var(--font); font-size: 13px; font-weight: 700;
       color: var(--text2); cursor: pointer; transition: all .16s;
       display: flex; align-items: center; justify-content: center; gap: 6px;
       white-space: nowrap;
@@ -262,7 +236,7 @@
       width: 100%; height: 56px;
       background: var(--surf2); border: 2px solid var(--border);
       border-radius: var(--r-md); padding: 0 56px 0 18px;
-      font-family: var(--font); font-size: 20px; font-weight: 600;
+      font-family: var(--font); font-size: 18px; font-weight: 600;
       color: var(--text); outline: none; transition: border-color .15s, background .15s;
     }
     .search-input::placeholder { color: var(--text3); font-weight: 600; }
@@ -307,7 +281,7 @@
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--accent), var(--sh-sm); cursor: pointer; }
     .dval { font-size: 14px; font-weight: 800; color: var(--text); min-width: 46px; text-align: right; }
 
-    .status { margin: 0 22px 12px; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--text2); flex-shrink: 0; min-height: 26px; }
+    .status { margin: 0 22px 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text2); flex-shrink: 0; min-height: 26px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); flex-shrink: 0; transition: background .3s; }
     .dot.spin { background: var(--gold); animation: blink .9s infinite; }
     .dot.ok   { background: var(--green); }
@@ -354,21 +328,18 @@
     .rnk { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; background: var(--surf2); color: var(--text2); flex-shrink: 0; margin-top: 1px; }
     .rnk.g { background: var(--golt); color: var(--gold); }
 
-    .sb { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
-    .sa { font-size: 14px; font-weight: 600; color: var(--text2); line-height: 1.45; margin-bottom: 7px; }
+    .sb { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+    .sa { font-size: 12px; font-weight: 600; color: var(--text2); line-height: 1.45; margin-bottom: 7px; }
     .chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
     .chip { font-size: 11px; font-weight: 700; border-radius: 7px; padding: 3px 8px; letter-spacing: .01em; text-transform: uppercase; }
     .c-self { background: #DBEAFE; color: #1D4ED8; }
     .c-serv { background: var(--surf2); color: var(--text2); }
     .c-dist { background: transparent; color: var(--text3); padding-left: 0; font-size: 11px; }
     .c-best { background: var(--glt); color: var(--green); }
-    .c-dt         { background: transparent; color: var(--text3); font-size: 10px; padding-left: 0; }
-    .c-dt.dt-ok   { background: #D1FAE5; color: #065F46; border-radius: 7px; padding: 3px 8px; }
-    .c-dt.dt-warn { background: #FEF3C7; color: #92400E; border-radius: 7px; padding: 3px 8px; }
-    .c-dt.dt-old  { background: #FEE2E2; color: #991B1B; border-radius: 7px; padding: 3px 8px; }
+    .c-dt   { background: transparent; color: var(--text3); font-size: 10px; padding-left: 0; }
 
     .pb { text-align: right; flex-shrink: 0; }
-    .pm { font-size: 26px; font-weight: 900; color: var(--text); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .pm { font-size: 24px; font-weight: 900; color: var(--text); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
     .pm.g { color: var(--green); }
     .pm.a { color: var(--gold); }
     .pu { font-size: 11px; font-weight: 700; color: var(--text3); margin-top: 2px; }
@@ -441,18 +412,6 @@
       .hero { padding: 6px 16px 0; }
       .controls { padding: 0 16px 12px; }
       .mode-tab { font-size: 16px !important; padding: 12px 10px !important; }
-    }
-
-    /* ── LANDSCAPE MOBILE ── */
-    @media (max-width: 900px) and (orientation: landscape) {
-      .shell { display: grid !important; grid-template-columns: 360px 1fr !important; flex-direction: unset !important; height: 100dvh !important; }
-      .panel { height: 100dvh !important; overflow-y: auto !important; border-right: 1px solid var(--border) !important; border-bottom: none !important; width: auto !important; }
-      #map { position: sticky !important; top: 0 !important; height: 100dvh !important; order: unset !important; }
-      .hero-title { font-size: 28px !important; }
-      .hero-sub { font-size: 13px !important; margin-bottom: 10px !important; }
-      .btn-gps { padding: 12px 16px !important; font-size: 15px !important; }
-      .mode-tab { padding: 8px 6px !important; font-size: 13px !important; }
-      .pill { padding: 8px 12px !important; font-size: 13px !important; }
     }
 
     /* ── FORCE MOBILE FONTS IN CAPACITOR APP ── */
@@ -528,6 +487,57 @@
     .seg-msg { font-size: 13px; font-weight: 700; text-align: center; margin-top: 14px; min-height: 20px; line-height: 1.5; }
     .seg-msg.ok  { color: var(--green); }
     .seg-msg.err { color: #EF4444; }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #0B0F1A;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    #preloader.hide {
+      opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .pre-gauge-wrap {
+      position: relative; width: 220px; height: 220px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pre-gauge-svg { position: absolute; top:0; left:0; }
+    .pre-logo {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      opacity: 0; transform: scale(0.6);
+      transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1);
+      font-family: 'Nunito', sans-serif;
+    }
+    .pre-logo.show { opacity: 1; transform: scale(1); }
+    .pre-logo-icon {
+      width: 44px; height: 44px; background: #3B5BDB; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 24px rgba(59,91,219,.7);
+    }
+    .pre-logo-text { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: -.03em; font-family: 'Nunito', sans-serif; }
+    .pre-logo-text em { color: #3B5BDB; font-style: normal; }
+    .pre-burst {
+      position: absolute; border-radius: 50%;
+      border: 3px solid #22c55e;
+      width: 220px; height: 220px;
+      top: 0; left: 0; opacity: 0;
+      pointer-events: none; z-index: 5;
+    }
+    .pre-burst.fire { animation: preBurstOut .65s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes preBurstOut {
+      0%  { opacity:.9; transform:scale(1); }
+      100%{ opacity:0;  transform:scale(2); }
+    }
+    .pre-sub {
+      margin-top: 28px; font-size: 12px; font-weight: 700;
+      color: rgba(255,255,255,0); letter-spacing: .14em;
+      text-transform: uppercase; font-family: 'Nunito', sans-serif;
+      transition: color .6s ease;
+    }
+    .pre-sub.show { color: rgba(255,255,255,.3); }
   </style>
   <link rel="manifest" href="/manifest.json"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -536,6 +546,32 @@
   <link rel="apple-touch-icon" href="/icon-192.png"/>
 </head>
 <body>
+
+<!-- ── PRELOADER ── -->
+<div id="preloader">
+  <div class="pre-gauge-wrap">
+    <svg class="pre-gauge-svg" width="220" height="220" viewBox="0 0 220 220">
+      <circle cx="110" cy="110" r="96"
+        fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="16" stroke-linecap="round"/>
+      <circle id="preArc" cx="110" cy="110" r="96"
+        fill="none" stroke="#EF4444" stroke-width="16"
+        stroke-linecap="round"
+        stroke-dasharray="603" stroke-dashoffset="603"
+        transform="rotate(-90 110 110)"/>
+    </svg>
+    <div class="pre-burst" id="preBurst"></div>
+    <div class="pre-logo" id="preLogo">
+      <div class="pre-logo-icon">
+        <svg width="24" height="24" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2C7.41 2 4.5 4.91 4.5 8.5c0 5 6.5 11.5 6.5 11.5s6.5-6.5 6.5-11.5C17.5 4.91 14.59 2 11 2zm0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="white"/>
+        </svg>
+      </div>
+      <div class="pre-logo-text">My<em>Benza</em></div>
+    </div>
+  </div>
+  <div class="pre-sub" id="preSub">Prezzi carburante in tempo reale</div>
+</div>
+
 <div class="shell">
 
   <aside class="panel">
@@ -675,6 +711,45 @@
 </div>
 
 <script>
+/* ── PRELOADER JS ── */
+(function(){
+  const arcEl   = document.getElementById('preArc');
+  const preLogo = document.getElementById('preLogo');
+  const preBurst= document.getElementById('preBurst');
+  const preSub  = document.getElementById('preSub');
+  const CIRC    = 603;
+  const DURATION= 2200;
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  const CS = [239,68,68], CE = [34,197,94];
+
+  let raf=null, exploded=false;
+  function step(ts){
+    if(!step.start) step.start=ts;
+    const p    = Math.min((ts-step.start)/DURATION,1);
+    const ease = p<0.5 ? 4*p*p*p : 1-Math.pow(-2*p+2,3)/2;
+    arcEl.style.strokeDashoffset = CIRC*(1-ease);
+    const r=Math.round(lerp(CS[0],CE[0],ease));
+    const g=Math.round(lerp(CS[1],CE[1],ease));
+    const b=Math.round(lerp(CS[2],CE[2],ease));
+    arcEl.setAttribute('stroke','rgb('+r+','+g+','+b+')');
+    if(p>=1 && !exploded){
+      exploded=true;
+      preBurst.classList.add('fire');
+      setTimeout(()=>preLogo.classList.add('show'),160);
+      setTimeout(()=>preSub.classList.add('show'),420);
+    }
+    if(p<1) raf=requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+
+  window._hidePreloader = function(){
+    setTimeout(function(){
+      document.getElementById('preloader').classList.add('hide');
+    }, 400);
+  };
+})();
+
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGluZ3V5eiIsImEiOiJjbW5jNjA4cGEwcnA1MnhzaHRheXpobzFlIn0.fSMRaf8GK8HeZ7M1zVf92A';
 const PROXY_URL    = 'https://agenziawebudine.com/benza-api/api.php';
 const SERVIZI_URL  = 'https://benza.agenziawebudine.com/benza-api/servizi.php';
@@ -1041,6 +1116,7 @@ function getSvcSvg(tipo, color) {
 }
 
 function doRenderServizi(results) {
+  if(window._hidePreloader) window._hidePreloader();
   clearPins();
   const el  = document.getElementById('list');
   const hdr = document.getElementById('resHdr');
@@ -1337,6 +1413,7 @@ function getSvcSvgPin(tipo, cx, sz) {
    RENDER CARBURANTE (logica originale)
 ══════════════════════════════════════════ */
 function doRender(raw) {
+  if(window._hidePreloader) window._hidePreloader();
   clearPins(); spIdx = 0;
   sponsorAttivi = getSponsorsByArea(lat, lng).sort(() => Math.random() - 0.5);
 
@@ -1406,7 +1483,7 @@ function mkCard(s, i, minP) {
       <div class="chips">
         ${s.self ? '<span class="chip c-self">Self</span>' : '<span class="chip c-serv">Servito</span>'}
         <span class="chip c-dist">${dist} km</span>
-        ${dt ? `<span class="chip ${dtClass(dt)}">agg. ${dt}</span>` : ''}
+        ${dt ? `<span class="chip c-dt">agg. ${dt}</span>` : ''}
         ${rk===1 ? '<span class="chip c-best">★ Migliore</span>' : ''}
       </div>
       <button class="btn-segnala" onclick="event.stopPropagation();apriSegnalazione(${s.id_impianto},'${x(s.gestore)}','${fuel}',${s.self?1:0},${s.prezzo.toFixed(3)})">✏️ Segnala prezzo</button>
@@ -1508,25 +1585,6 @@ function showSkel() {
 function showErr(title, sub, isGps, isHttps) {
   document.getElementById('resHdr').style.display = 'none';
   document.getElementById('list').innerHTML = `<div class="sbox"><div class="s-ico">${isHttps?'🔒':isGps?'📍':'⚠️'}</div><div class="s-title">${title}</div><p class="s-sub">${sub}</p>${!isHttps?`<button class="btn-retry" onclick="${isGps?'doLocate()':'mode==="carburante"?doFetch():doFetchServizi()'}">Riprova</button>`:''}</div>`;
-}
-
-function dtClass(dateStr) {
-  if (!dateStr) return 'c-dt';
-  const today = new Date(); today.setHours(0,0,0,0);
-  const parts = dateStr.split('/'); // formato dd/mm/yyyy o yyyy-mm-dd
-  let d;
-  if (parts.length === 3 && parts[0].length === 4) {
-    d = new Date(parts[0], parts[1]-1, parts[2]);
-  } else if (parts.length === 3) {
-    d = new Date(parts[2], parts[1]-1, parts[0]);
-  } else {
-    d = new Date(dateStr);
-  }
-  d.setHours(0,0,0,0);
-  const diffDays = Math.round((today - d) / 86400000);
-  if (diffDays <= 0) return 'c-dt dt-ok';
-  if (diffDays <= 2) return 'c-dt dt-warn';
-  return 'c-dt dt-old';
 }
 
 function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
