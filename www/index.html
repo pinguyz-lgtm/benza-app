@@ -419,63 +419,18 @@
 
     /* ── FORCE MOBILE FONTS IN CAPACITOR APP ── */
 @media (max-width: 900px) {
-  .hero-title { font-size: 52px !important; }
-  .hero-sub { font-size: 20px !important; }
-  .pill { font-size: 20px !important; padding: 14px 20px !important; }
-  .mode-tab { font-size: 20px !important; padding: 14px 12px !important; }
-  .btn-gps { font-size: 22px !important; }
-  .search-input { font-size: 22px !important; }
-  .sb { font-size: 22px !important; }
-  .sa { font-size: 18px !important; }
-  .pm { font-size: 36px !important; }
-  .status { font-size: 20px !important; }
-  .chip { font-size: 14px !important; }
-  .svc-sponsor-badge { font-size: 14px !important; }
+  .hero-title { font-size: 48px !important; }
+  .hero-sub { font-size: 18px !important; }
+  .pill { font-size: 18px !important; padding: 14px 20px !important; }
+  .mode-tab { font-size: 18px !important; padding: 14px 12px !important; }
+  .btn-gps { font-size: 20px !important; }
+  .search-input { font-size: 20px !important; }
+  .sb { font-size: 20px !important; }
+  .sa { font-size: 16px !important; }
+  .pm { font-size: 32px !important; }
+  .status { font-size: 18px !important; }
+  .svc-sponsor-badge { font-size: 13px !important; }
 }
-
-    /* ── LANDSCAPE MOBILE — mappa a destra, risultati a sinistra ── */
-    @media (max-width: 900px) and (orientation: landscape) {
-      .shell {
-        display: grid !important;
-        grid-template-columns: 42vw 1fr !important;
-        flex-direction: unset !important;
-        height: 100dvh !important;
-        overflow: hidden !important;
-      }
-      .panel {
-        height: 100dvh !important;
-        overflow-y: auto !important;
-        border-right: 1px solid var(--border) !important;
-        border-bottom: none !important;
-        width: 100% !important;
-      }
-      #map {
-        position: sticky !important;
-        top: 0 !important;
-        height: 100dvh !important;
-        order: unset !important;
-        width: 100% !important;
-      }
-      .hero-title { font-size: 22px !important; margin-bottom: 2px !important; }
-      .hero-sub   { font-size: 12px !important; margin-bottom: 6px !important; }
-      .hero       { padding: 4px 10px 0 !important; }
-      .controls   { padding: 0 10px 6px !important; }
-      .topbar     { padding: 6px 10px 0 !important; }
-      .mode-tab   { font-size: 12px !important; padding: 6px 4px !important; }
-      .pill       { font-size: 12px !important; padding: 7px 8px !important; }
-      .btn-gps    { font-size: 13px !important; padding: 10px 12px !important; margin-bottom: 6px !important; }
-      .search-input { font-size: 13px !important; height: 44px !important; }
-      .sb { font-size: 14px !important; }
-      .sa { font-size: 12px !important; }
-      .pm { font-size: 22px !important; }
-      .pu { font-size: 10px !important; }
-      .chip { font-size: 11px !important; }
-      .list { padding: 0 10px 16px !important; }
-      .sc { padding: 10px 12px !important; margin-bottom: 7px !important; }
-      .status { font-size: 12px !important; margin: 0 10px 8px !important; }
-      .dist-row { margin-bottom: 6px !important; }
-      .or-row { margin-bottom: 6px !important; }
-    }
 
     .upin { width: 20px; height: 20px; background: var(--accent); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 5px rgba(59,91,219,.22), 0 2px 10px rgba(0,0,0,.2); animation: pr 2.2s ease-out infinite; }
     @keyframes pr { 0%{box-shadow:0 0 0 5px rgba(59,91,219,.22),0 2px 10px rgba(0,0,0,.2)} 60%{box-shadow:0 0 0 16px rgba(59,91,219,.0),0 2px 10px rgba(0,0,0,.2)} 100%{box-shadow:0 0 0 5px rgba(59,91,219,.22),0 2px 10px rgba(0,0,0,.2)} }
@@ -648,8 +603,8 @@
           </svg>
           Carburante
         </button>
-        <div class="mode-tabs-servizi">
-          <button class="mode-tab" data-mode="autolavaggio" onclick="setMode('autolavaggio',this)">
+        <div class="mode-tabs-servizi" style="grid-template-columns: 1fr;">
+          <button class="mode-tab" data-mode="autolavaggio" onclick="setMode('autolavaggio',this)" style="width:100%;">
             <svg class="tab-ico" viewBox="0 0 24 24" fill="none">
   <path d="M3 23 L3 8 Q3 3 8 3 L16 3 Q21 3 21 8 L21 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"></path>
   <line x1="3" y1="10" x2="6" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
@@ -667,7 +622,6 @@
 </svg>
             Autolavaggio
           </button>
-
         </div>
       </div>
 
@@ -796,13 +750,13 @@
 
 })();
 
-// Timeout massimo GLOBALE — fuori da tutto
+// Timeout massimo GLOBALE — nasconde il preloader dopo 4 secondi comunque
 setTimeout(function(){
   var pre = document.getElementById('preloader');
   if (pre && !pre.classList.contains('hide')) {
     pre.classList.add('hide');
   }
-}, 3500);
+}, 4000);
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGluZ3V5eiIsImEiOiJjbW5jNjA4cGEwcnA1MnhzaHRheXpobzFlIn0.fSMRaf8GK8HeZ7M1zVf92A';
 const PROXY_URL    = 'https://agenziawebudine.com/benza-api/api.php';
@@ -1657,7 +1611,6 @@ function dtClass(dateStr) {
   if (diffDays <= 2) return 'c-dt dt-warn';
   return 'c-dt dt-old';
 }
-
 function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
 function x(s) { if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function shortAddr(a) { if(!a) return ''; const p=a.split(' - '); return (p.length>1?p[p.length-1]:a).trim(); }
