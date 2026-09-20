@@ -489,6 +489,60 @@
     .btn-seg-send:hover { background: var(--acdk); transform: translateY(-1px); }
     .seg-msg { font-size: 13px; font-weight: 700; text-align: center; margin-top: 14px; min-height: 20px; line-height: 1.5; }
     .seg-msg.ok  { color: var(--green); }
+
+        .seg-msg.err { color: #EF4444; }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #0B0F1A;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    #preloader.hide {
+      opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .pre-gauge-wrap {
+      position: relative; width: 220px; height: 220px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pre-gauge-svg { position: absolute; top:0; left:0; }
+    .pre-logo {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      opacity: 0; transform: scale(0.6);
+      transition: opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1);
+      font-family: 'Nunito', sans-serif;
+    }
+    .pre-logo.show { opacity: 1; transform: scale(1); }
+    .pre-logo-icon {
+      width: 44px; height: 44px; background: #3B5BDB; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 24px rgba(59,91,219,.7);
+    }
+    .pre-logo-text { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: -.03em; font-family: 'Nunito', sans-serif; }
+    .pre-logo-text em { color: #3B5BDB; font-style: normal; }
+    .pre-burst {
+      position: absolute; border-radius: 50%;
+      border: 3px solid #22c55e;
+      width: 220px; height: 220px;
+      top: 0; left: 0; opacity: 0;
+      pointer-events: none; z-index: 5;
+    }
+    .pre-burst.fire { animation: preBurstOut .65s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes preBurstOut {
+      0%  { opacity:.9; transform:scale(1); }
+      100%{ opacity:0;  transform:scale(2); }
+    }
+    .pre-sub {
+      margin-top: 28px; font-size: 12px; font-weight: 700;
+      color: rgba(255,255,255,0); letter-spacing: .14em;
+      text-transform: uppercase; font-family: 'Nunito', sans-serif;
+      transition: color .6s ease;
+    }
+    .pre-sub.show { color: rgba(255,255,255,.3); }
+
     .seg-msg.err { color: #EF4444; }
   </style>
   <link rel="manifest" href="/manifest.json"/>
@@ -498,6 +552,30 @@
   <link rel="apple-touch-icon" href="/icon-192.png"/>
 </head>
 <body>
+<!-- ── PRELOADER ── -->
+<div id="preloader">
+  <div class="pre-gauge-wrap">
+    <svg class="pre-gauge-svg" width="220" height="220" viewBox="0 0 220 220">
+      <circle cx="110" cy="110" r="96"
+        fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="16" stroke-linecap="round"/>
+      <circle id="preArc" cx="110" cy="110" r="96"
+        fill="none" stroke="#EF4444" stroke-width="16"
+        stroke-linecap="round"
+        stroke-dasharray="603" stroke-dashoffset="603"
+        transform="rotate(-90 110 110)"/>
+    </svg>
+    <div class="pre-burst" id="preBurst"></div>
+    <div class="pre-logo" id="preLogo">
+      <div class="pre-logo-icon">
+        <svg width="24" height="24" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2C7.41 2 4.5 4.91 4.5 8.5c0 5 6.5 11.5 6.5 11.5s6.5-6.5 6.5-11.5C17.5 4.91 14.59 2 11 2zm0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="white"/>
+        </svg>
+      </div>
+      <div class="pre-logo-text">My<em>Benza</em></div>
+    </div>
+  </div>
+  <div class="pre-sub" id="preSub">Prezzi carburante in tempo reale</div>
+</div>
 <div class="shell">
 
   <aside class="panel">
@@ -633,6 +711,53 @@
 </div>
 
 <script>
+/* ── PRELOADER JS ── */
+(function(){
+  const arcEl   = document.getElementById('preArc');
+  const preLogo = document.getElementById('preLogo');
+  const preBurst= document.getElementById('preBurst');
+  const preSub  = document.getElementById('preSub');
+  const CIRC    = 603;
+  const DURATION= 2200;
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  const CS = [239,68,68], CE = [34,197,94];
+
+  let raf=null, exploded=false;
+  function step(ts){
+    if(!step.start) step.start=ts;
+    const p    = Math.min((ts-step.start)/DURATION,1);
+    const ease = p<0.5 ? 4*p*p*p : 1-Math.pow(-2*p+2,3)/2;
+    arcEl.style.strokeDashoffset = CIRC*(1-ease);
+    const r=Math.round(lerp(CS[0],CE[0],ease));
+    const g=Math.round(lerp(CS[1],CE[1],ease));
+    const b=Math.round(lerp(CS[2],CE[2],ease));
+    arcEl.setAttribute('stroke','rgb('+r+','+g+','+b+')');
+    if(p>=1 && !exploded){
+      exploded=true;
+      preBurst.classList.add('fire');
+      setTimeout(()=>preLogo.classList.add('show'),160);
+      setTimeout(()=>preSub.classList.add('show'),420);
+    }
+    if(p<1) raf=requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+
+  window._hidePreloader = function(){
+    setTimeout(function(){
+      document.getElementById('preloader').classList.add('hide');
+    }, 400);
+  };
+
+})();
+
+// Timeout massimo GLOBALE — nasconde il preloader dopo 4 secondi comunque
+setTimeout(function(){
+  var pre = document.getElementById('preloader');
+  if (pre && !pre.classList.contains('hide')) {
+    pre.classList.add('hide');
+  }
+}, 4000);
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGluZ3V5eiIsImEiOiJjbW5jNjA4cGEwcnA1MnhzaHRheXpobzFlIn0.fSMRaf8GK8HeZ7M1zVf92A';
 const PROXY_URL    = 'https://agenziawebudine.com/benza-api/api.php';
 const SERVIZI_URL  = 'https://benza.agenziawebudine.com/benza-api/servizi.php';
@@ -1295,6 +1420,7 @@ function getSvcSvgPin(tipo, cx, sz) {
    RENDER CARBURANTE (logica originale)
 ══════════════════════════════════════════ */
 function doRender(raw) {
+  if(window._hidePreloader) window._hidePreloader();
   clearPins(); spIdx = 0;
   sponsorAttivi = getSponsorsByArea(lat, lng).sort(() => Math.random() - 0.5);
 
