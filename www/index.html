@@ -336,7 +336,10 @@
     .c-serv { background: var(--surf2); color: var(--text2); }
     .c-dist { background: transparent; color: var(--text3); padding-left: 0; font-size: 11px; }
     .c-best { background: var(--glt); color: var(--green); }
-    .c-dt   { background: transparent; color: var(--text3); font-size: 10px; padding-left: 0; }
+    .c-dt      { background: transparent; color: var(--text3); font-size: 10px; padding-left: 0; }
+    .c-dt.dt-ok   { background: #D1FAE5; color: #065F46; border-radius: 7px; padding: 3px 8px; }
+    .c-dt.dt-warn { background: #FEF3C7; color: #92400E; border-radius: 7px; padding: 3px 8px; }
+    .c-dt.dt-old  { background: #FEE2E2; color: #991B1B; border-radius: 7px; padding: 3px 8px; }
 
     .pb { text-align: right; flex-shrink: 0; }
     .pm { font-size: 24px; font-weight: 900; color: var(--text); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -1361,7 +1364,7 @@ function mkCard(s, i, minP) {
       <div class="chips">
         ${s.self ? '<span class="chip c-self">Self</span>' : '<span class="chip c-serv">Servito</span>'}
         <span class="chip c-dist">${dist} km</span>
-        ${dt ? `<span class="chip c-dt">agg. ${dt}</span>` : ''}
+        ${dt ? `<span class="chip ${dtClass(dt)}">agg. ${dt}</span>` : ''}
         ${rk===1 ? '<span class="chip c-best">★ Migliore</span>' : ''}
       </div>
       <button class="btn-segnala" onclick="event.stopPropagation();apriSegnalazione(${s.id_impianto},'${x(s.gestore)}','${fuel}',${s.self?1:0},${s.prezzo.toFixed(3)})">✏️ Segnala prezzo</button>
@@ -1463,6 +1466,24 @@ function showErr(title, sub, isGps, isHttps) {
   document.getElementById('list').innerHTML = `<div class="sbox"><div class="s-ico">${isHttps?'🔒':isGps?'📍':'⚠️'}</div><div class="s-title">${title}</div><p class="s-sub">${sub}</p>${!isHttps?`<button class="btn-retry" onclick="${isGps?'doLocate()':'mode==="carburante"?doFetch():doFetchServizi()'}">Riprova</button>`:''}</div>`;
 }
 
+function dtClass(dateStr) {
+  if (!dateStr) return 'c-dt';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const parts = dateStr.split('/');
+  let d;
+  if (parts.length === 3 && parts[0].length === 4) {
+    d = new Date(parts[0], parts[1]-1, parts[2]);
+  } else if (parts.length === 3) {
+    d = new Date(parts[2], parts[1]-1, parts[0]);
+  } else {
+    d = new Date(dateStr);
+  }
+  d.setHours(0,0,0,0);
+  const diffDays = Math.round((today - d) / 86400000);
+  if (diffDays <= 0) return 'c-dt dt-ok';
+  if (diffDays <= 2) return 'c-dt dt-warn';
+  return 'c-dt dt-old';
+}
 function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
 function x(s) { if(!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function shortAddr(a) { if(!a) return ''; const p=a.split(' - '); return (p.length>1?p[p.length-1]:a).trim(); }
