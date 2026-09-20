@@ -749,16 +749,15 @@
     }, 400);
   };
 
-// Timeout massimo GLOBALE
-document.addEventListener('DOMContentLoaded', function(){
-  setTimeout(function(){
-    var pre = document.getElementById('preloader');
-    if (pre && !pre.classList.contains('hide')) {
-      pre.classList.add('hide');
-    }
-  }, 3000);
-});
 })();
+
+// Timeout massimo GLOBALE — fuori da tutto
+setTimeout(function(){
+  var pre = document.getElementById('preloader');
+  if (pre && !pre.classList.contains('hide')) {
+    pre.classList.add('hide');
+  }
+}, 3500);
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicGluZ3V5eiIsImEiOiJjbW5jNjA4cGEwcnA1MnhzaHRheXpobzFlIn0.fSMRaf8GK8HeZ7M1zVf92A';
 const PROXY_URL    = 'https://agenziawebudine.com/benza-api/api.php';
