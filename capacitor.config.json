@@ -4,16 +4,6 @@
   "webDir": "www",
   "bundledWebRuntime": false,
   "ios": {
-    "buildNumber": "16",
-    "contentInset": "automatic",
-    "allowsLinkPreview": false,
-    "scrollEnabled": false,
-    "backgroundColor": "#ffffff"
-  },
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 0,
-      "launchAutoHide": true
-    }
+    "buildNumber": "14"
   }
 }
