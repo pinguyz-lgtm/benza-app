@@ -437,7 +437,7 @@
     @media (max-width: 900px) and (orientation: landscape) {
       .shell {
         display: grid !important;
-        grid-template-columns: 340px 1fr !important;
+        grid-template-columns: 42vw 1fr !important;
         flex-direction: unset !important;
         height: 100dvh !important;
         overflow: hidden !important;
@@ -447,7 +447,7 @@
         overflow-y: auto !important;
         border-right: 1px solid var(--border) !important;
         border-bottom: none !important;
-        width: 340px !important;
+        width: 100% !important;
       }
       #map {
         position: sticky !important;
@@ -456,16 +456,25 @@
         order: unset !important;
         width: 100% !important;
       }
-      .hero-title { font-size: 26px !important; margin-bottom: 2px !important; }
-      .hero-sub   { font-size: 13px !important; margin-bottom: 8px !important; }
-      .hero       { padding: 4px 12px 0 !important; }
-      .controls   { padding: 0 12px 8px !important; }
-      .mode-tab   { font-size: 13px !important; padding: 7px 6px !important; }
-      .pill       { font-size: 13px !important; padding: 8px 10px !important; }
-      .btn-gps    { font-size: 14px !important; padding: 12px 14px !important; }
-      .topbar     { padding: 8px 12px 0 !important; }
-      .sb { font-size: 15px !important; }
-      .pm { font-size: 26px !important; }
+      .hero-title { font-size: 22px !important; margin-bottom: 2px !important; }
+      .hero-sub   { font-size: 12px !important; margin-bottom: 6px !important; }
+      .hero       { padding: 4px 10px 0 !important; }
+      .controls   { padding: 0 10px 6px !important; }
+      .topbar     { padding: 6px 10px 0 !important; }
+      .mode-tab   { font-size: 12px !important; padding: 6px 4px !important; }
+      .pill       { font-size: 12px !important; padding: 7px 8px !important; }
+      .btn-gps    { font-size: 13px !important; padding: 10px 12px !important; margin-bottom: 6px !important; }
+      .search-input { font-size: 13px !important; height: 44px !important; }
+      .sb { font-size: 14px !important; }
+      .sa { font-size: 12px !important; }
+      .pm { font-size: 22px !important; }
+      .pu { font-size: 10px !important; }
+      .chip { font-size: 11px !important; }
+      .list { padding: 0 10px 16px !important; }
+      .sc { padding: 10px 12px !important; margin-bottom: 7px !important; }
+      .status { font-size: 12px !important; margin: 0 10px 8px !important; }
+      .dist-row { margin-bottom: 6px !important; }
+      .or-row { margin-bottom: 6px !important; }
     }
 
     .upin { width: 20px; height: 20px; background: var(--accent); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 5px rgba(59,91,219,.22), 0 2px 10px rgba(0,0,0,.2); animation: pr 2.2s ease-out infinite; }
@@ -658,10 +667,7 @@
 </svg>
             Autolavaggio
           </button>
-          <button class="mode-tab" data-mode="officina" onclick="setMode('officina',this)">
-            <svg class="tab-ico" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Officina
-          </button>
+
         </div>
       </div>
 

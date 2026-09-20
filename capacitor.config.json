@@ -4,7 +4,11 @@
   "webDir": "www",
   "bundledWebRuntime": false,
   "ios": {
-    "buildNumber": "14"
+    "buildNumber": "16",
+    "contentInset": "automatic",
+    "allowsLinkPreview": false,
+    "scrollEnabled": false,
+    "backgroundColor": "#ffffff"
   },
   "plugins": {
     "SplashScreen": {
