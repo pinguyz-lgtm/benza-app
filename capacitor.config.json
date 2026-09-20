@@ -5,5 +5,11 @@
   "bundledWebRuntime": false,
   "ios": {
     "buildNumber": "14"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": true
+    }
   }
 }
